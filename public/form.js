@@ -80,13 +80,13 @@ PlayTimeDisable();
 const GameForm = document.getElementById("GameForm");  // formタグのid
 
 GameForm.addEventListener('submit', (e) => {
-  e.preventDefault();  // 指定URL送信処理をやめる
+  e.preventDefault();  // 送信時にページリロードされないようにする（情報の欠落を防ぐ）
   
   // Objectにname属性値を残すため
   PlayTimeHour.disabled = false;  // プレイ時間の有効化
   PlayTimeMinute.disabled = false;  // プレイ時間の有効化      
 
-  const formData = new FormData(GameForm);
+  const formData = new FormData(e.target);
 
   const GameTitle = formData.get('GameTitle');
 
