@@ -1,9 +1,14 @@
 
 const express = require("express");  // expressパッケージの読み込み
-const mysql = require("mysql2");  // mysql2パッケージの読み込み
-require('dotenv').config(); // .envファイルの読み込み
+const mysql = require("mysql2");     // mysql2パッケージの読み込み
+const multer = require("multer");    // multerの読み込み（ファイルデータをリクエストで受け取る）
+const cors = require("cors");        // corsの読み込み（保護用ブロック解除を許可）
+require('dotenv').config();          // .envファイルの読み込み
 const app = express();
 const path = require("path");
+
+app.use(cors());  // すべてのルートに対してcorsを許可
+app.use(express.static('public'));
 
 // mysqlとの接続情報を登録
 const connection = mysql.createConnection({
@@ -14,18 +19,56 @@ const connection = mysql.createConnection({
 
 });
 
-// 接続確認処理
+// データベース接続確認処理
 connection.connect((err) =>{
     if(err) {
         console.log('error connecting' + err.stack);
         return;
     }
 
-    console.log('success');
+    console.log('success');  // 接続成功
 });
 
-app.get('/form',function(req,res){
-    res.send('Hello World'); // レスポンスを返す
+
+// formから送られたデータをデータベースに格納
+const image = multer({dest:'./Image/'});
+app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
+    // リクエストで受け取った値たち
+    const gameTitle = req.body.GameTitle;
+    const platform = req.body.PlayPackageKinds;
+    const playDate = req.body.PlayDate;
+    const playStatus = req.body.PlayStatus;
+    const playTImeMinute = (req.body.PlayTimeHour * 60) + (req.body.PlayTimeMinute || 0);
+    const review = req.body.Review;
+    const starLevel = req.body.RecommendedLevel;
+
+    let gameImagePath = null;  // 画像が送られてきてない場合を考慮
+    if(req.files && req.files.length > 0){
+        gameImagePath = req.files[0].path;   // multerで作ったパスと同じパスを指定
+    }
+    else{
+        gameImagePath = "Image\\150x150.png";
+    }
+
+
+    const query = `INSERT INTO package_game 
+                   (game_title,platform,play_date,play_status,play_time_minutes,review,star_level,game_image_path)
+                   VALUES (?,?,?,?,?,?,?,?)`;  // プレースホルダでセキュリティ対策
+
+    const values = [gameTitle,platform,playDate,playStatus,playTImeMinute,review,starLevel,gameImagePath];
+
+    connection.query(query,values, (err,results) =>{
+        if(err){
+            console.err("データを追加できませんでした：" + err);
+            return res.status(500).send("エラーが発生しました");  // ステータスコードを返す
+        }
+
+        // 1件追加できた場合
+        if(results.affectedRows === 1){
+            console.log("データを追加しました");
+            return res.status(200).send("追加できました");
+        }
+    });
 });
 
 app.listen(3000);  // ポートの受付

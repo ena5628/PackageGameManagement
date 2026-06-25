@@ -110,13 +110,15 @@ const SendToData = async () =>{
       try {
         const response = await FetchToForm(formData);  // fetchの呼び出し（レスポンス格納）
         
-        console.log(response.status);
+        const status = await response.text();
 
         if(response.ok){
             console.log('接続完了');
+            console.log(status);
         }
         else{
             console.log('接続できませんでした');
+            console.log(status);
         }
       }
       catch(error){
