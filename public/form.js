@@ -1,4 +1,7 @@
 'use strict'
+
+// const { error } = require("node:console");
+
 /**
  * 評価を星の数として出力
  */
@@ -71,10 +74,63 @@ const PlayTimeOverSolution = () =>{
 }
 
 
-// 実行場所
+// 実行場所（フロント部分）
 createStar();
 PlayTimeOverSolution();
 PlayTimeDisable();
+
+
+
+// fetchの非同期処理
+const FetchToForm = async (formData) =>{
+    return await fetch('http://localhost:3000/form', {
+    method:'POST',
+    body: formData
+  });
+}
+
+// データ送信処理
+const SendToData = async () =>{
+  const GameForm = document.getElementById("GameForm");  // formタグのid
+
+  GameForm.addEventListener('submit', async (e) => {
+      e.preventDefault();  // 送信時にページリロードされないようにする（情報の欠落を防ぐ）
+      
+      // Objectにname属性値を残すため
+      PlayTimeHour.disabled = false;  // プレイ時間の有効化
+      PlayTimeMinute.disabled = false;  // プレイ時間の有効化      
+
+      const formData = new FormData(e.target);  // formデータをそのまま保持（ファイル対応）
+
+      // オブジェクト形式に変換(使わないけど一応)
+      const allData = Object.fromEntries(formData.entries());
+
+      // console.log(allData);
+
+      try {
+        const response = await FetchToForm(formData);  // fetchの呼び出し（レスポンス格納）
+        
+        console.log(response.status);
+
+        if(response.ok){
+            console.log('接続完了');
+        }
+        else{
+            console.log('接続できませんでした');
+        }
+      }
+      catch(error){
+        console.error("接続失敗：" + error);
+      }
+
+
+      
+    });
+
+};
+
+SendToData();
+
 
 // フォーム内容をコンソール出力（確認用）
 const GameForm = document.getElementById("GameForm");  // formタグのid
@@ -89,11 +145,15 @@ GameForm.addEventListener('submit', (e) => {
   const formData = new FormData(e.target);
 
   const GameTitle = formData.get('GameTitle');
+  const GameImagePhoto = formData.get('GameImagePhoto');
 
-  console.log(GameTitle);
+  // console.log(GameTitle);
+  // console.log(GameImagePhoto);
 
   // オブジェクト形式に変換
   const allData = Object.fromEntries(formData.entries());
+
+  console.log(formData);  // ログ
 
   console.log(allData);
   
