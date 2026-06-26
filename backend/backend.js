@@ -77,8 +77,7 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
 });
 
 
-// データベースからデータを取得する処理
-
+// データベースからJSONデータを取得する処理
 app.get('/mainscreen/reload/getJson',(req,res) => {
     const select_query = 'select * from package_game';  // 全件取得
     connection.query(select_query,(err,results) =>{
@@ -95,10 +94,14 @@ app.get('/mainscreen/reload/getJson',(req,res) => {
 
 });
 
-app.get('/mainscreen/reload/getBinary',(req,res) => {
+// サーバーから画像データを受け取り呼び出し元に返す処理
+app.get('/mainscreen/reload/getBinary/:imagepath',(req,res) => {
+    const fileName = req.params.imagepath;  // URLの末尾の動的なパラメータ（imagepath）を取得
+    console.log(fileName);// ファイル取得できたかチェック
 
-
-
+    const filePath = path.join(__dirname,'..','Image',fileName);
+    console.log(filePath); 
+    res.sendFile(filePath);  // ファイルを返す
 });
 
 
