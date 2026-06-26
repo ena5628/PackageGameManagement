@@ -49,10 +49,10 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
 
     let gameImagePath = null;  // 画像が送られてきてない場合を考慮
     if(req.files && req.files.length > 0){
-        gameImagePath = req.files[0].path;   // multerで作ったパスと同じパスを指定
+        gameImagePath = req.files[0].filename;   // 画像の名前
     }
     else{
-        gameImagePath = "Image\\150x150.png";  // デフォルトの画像を設定
+        gameImagePath = "150x150.png";  // デフォルトの画像を設定
     }
 
 
@@ -79,7 +79,7 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
 
 // データベースからデータを取得する処理
 
-app.get('/mainscreen/reload',(req,res) => {
+app.get('/mainscreen/reload/getJson',(req,res) => {
     const select_query = 'select * from package_game';  // 全件取得
     connection.query(select_query,(err,results) =>{
         if(err){
@@ -91,6 +91,12 @@ app.get('/mainscreen/reload',(req,res) => {
         res.json(results);
 
     });
+
+
+});
+
+app.get('/mainscreen/reload/getBinary',(req,res) => {
+
 
 
 });
