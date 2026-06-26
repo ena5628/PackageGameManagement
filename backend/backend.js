@@ -13,6 +13,10 @@ app.use(cors({
 }));
 app.use(express.static(path.join(__dirname,'..','public')));  // 静的ファイル置き場の公開
 
+// 送信できる容量を制限
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 // mysqlとの接続情報を登録
 const connection = mysql.createConnection({
     host:process.env.DB_HOST,
@@ -52,7 +56,7 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
         gameImagePath = req.files[0].filename;   // 画像の名前
     }
     else{
-        gameImagePath = "150x150.png";  // デフォルトの画像を設定
+        gameImagePath = "default_image.png";  // デフォルトの画像を設定
     }
 
 

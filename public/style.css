@@ -115,6 +115,9 @@ body{
  font-size: 1rem;
  margin: 0 0 6px 0;
  color: #333;
+ white-space: nowrap;     /* 文字を改行させない */
+ overflow: hidden;        /* 枠からはみ出た部分を隠す */
+ text-overflow: ellipsis; /* はみ出た末尾を「…」にする */
 }
 .card-blog-content .platform {
  font-size: 0.95rem;
@@ -136,6 +139,9 @@ body{
  font-size: 0.95rem;
  color: #666;
  line-height: 1.4;
+ white-space: nowrap;     /* 文字を改行させない */
+ overflow: hidden;        /* 枠からはみ出た部分を隠す */
+ text-overflow: ellipsis; /* はみ出た末尾を「…」にする */
 }
 .card-blog-content .star_level {
  font-size: 0.95rem;
