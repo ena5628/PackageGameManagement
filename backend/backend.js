@@ -7,8 +7,11 @@ require('dotenv').config();          // .envファイルの読み込み
 const app = express();
 const path = require("path");
 
-app.use(cors());  // すべてのルートに対してcorsを許可
-app.use(express.static('public'));
+// フロントエンドに対してcorsを許可
+app.use(cors({
+    origin: "http://127.0.0.1:5500"
+}));
+app.use(express.static(path.join(__dirname,'..','public')));  // 静的ファイル置き場の公開
 
 // mysqlとの接続情報を登録
 const connection = mysql.createConnection({
@@ -29,9 +32,11 @@ connection.connect((err) =>{
     console.log('success');  // 接続成功
 });
 
+// 画像保存先パスの指定
+const uploadPath = path.join(__dirname,'..','Image'); 
 
 // formから送られたデータをデータベースに格納
-const image = multer({dest:'./Image/'});
+const image = multer({dest:uploadPath});
 app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
     // リクエストで受け取った値たち
     const gameTitle = req.body.GameTitle;
@@ -47,17 +52,17 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
         gameImagePath = req.files[0].path;   // multerで作ったパスと同じパスを指定
     }
     else{
-        gameImagePath = "Image\\150x150.png";
+        gameImagePath = "Image\\150x150.png";  // デフォルトの画像を設定
     }
 
 
-    const query = `INSERT INTO package_game 
+    const insert_query = `INSERT INTO package_game 
                    (game_title,platform,play_date,play_status,play_time_minutes,review,star_level,game_image_path)
                    VALUES (?,?,?,?,?,?,?,?)`;  // プレースホルダでセキュリティ対策
 
     const values = [gameTitle,platform,playDate,playStatus,playTImeMinute,review,starLevel,gameImagePath];
 
-    connection.query(query,values, (err,results) =>{
+    connection.query(insert_query,values, (err,results) =>{
         if(err){
             console.err("データを追加できませんでした：" + err);
             return res.status(500).send("エラーが発生しました");  // ステータスコードを返す
@@ -70,5 +75,28 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
         }
     });
 });
+
+
+// データベースからデータを取得する処理
+
+app.get('/mainscreen/reload',(req,res) => {
+    const select_query = 'select * from package_game';  // 全件取得
+    connection.query(select_query,(err,results) =>{
+        if(err){
+            console.error(err);
+            return res.status(500).send('DBエラー');
+        }
+
+        console.log(results);
+        res.json(results);
+
+    });
+
+
+});
+
+
+
+
 
 app.listen(3000);  // ポートの受付

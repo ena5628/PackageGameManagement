@@ -113,7 +113,7 @@ const SendToData = async () =>{
         const status = await response.text();
 
         if(response.ok){
-            console.log('接続完了');
+            console.log('接続成功');
             console.log(status);
         }
         else{
