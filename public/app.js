@@ -39,7 +39,7 @@ const getByBInaryData = async(response) => {
             
             let createUrl = URL.createObjectURL(blob);  // URLを生成 
 
-            url.push(createUrl);
+            url.push(createUrl);  // 配列に作成したURL追加
         }
         else{
             console.log('画像データ取得失敗:', + res.status);
@@ -49,6 +49,39 @@ const getByBInaryData = async(response) => {
     
     return url;  // 画像のURLデータを返す
 }
+
+// html部分の作成（ゲームカード）
+const CreatePanel = (values,url) =>{
+    const GameCard = document.querySelector('.GameCard');
+
+    // 購入日の形式を直す
+    const date = new Date(values.play_date);
+    const formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+
+    // プレイ時間の形式を直す
+    const hour = Math.floor(values.play_time_minutes / 60);
+    const minutes = values.play_time_minutes % 60;
+    const time = `${hour}時間 ${minutes}分`;
+
+    const htmlText =  `
+    <div class="card-blog-a">
+        <img src="${url}" alt="記事画像">
+            <div class="card-blog-content">
+                <h3 class="game-title">ゲームタイトル：${values.game_title}</h3>
+                <p class="platform">ゲームの種類：${values.platform}</p>
+                <p class="play-date">購入日：${formatDate}</p>
+                <p class="play-status">進捗状況：${values.play_status}</p>
+                <p class="play-time-minutes">プレイ時間：${time}</p>
+                <p class="star_level">おすすめ度：${values.star_level}</p>
+                <p class="review">レビュー：${values.review}</p>
+            </div>
+    </div>
+    `;
+
+    GameCard.insertAdjacentHTML('beforeend',htmlText);
+
+}
+
 
 // 画面再描画処理
 const ScreenReload = async() =>{
@@ -79,10 +112,16 @@ const ScreenReload = async() =>{
         const url = await getByBInaryData(resposeBinary);  // url取得
 
         console.log(url);
+
+        // GamePanelの作成（受け取ったデータの数に合わせて）
+        for(let i = 0; i < GameDataArray.length; i++){
+            CreatePanel(GameDataArray[i],url[i]);
+        }
+
         // const resposeBinary = await fetch('http://localhost:3000/mainscreen/reload/getBinary');
     }
     catch(error){
-        console.log("データ取得失敗：" + error);
+        console.log('データ取得失敗：' + error);
     }
 
 

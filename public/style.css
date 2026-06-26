@@ -96,8 +96,11 @@ body{
  transform: translateY(-6px);
  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
+
+/* ゲームカードの各デザイン */
 .card-blog-a img {
  width: 100%;
+ height:210px;
  display: block;
  transition: transform 0.4s ease;
 }
@@ -107,12 +110,34 @@ body{
 .card-blog-content {
  padding: 14px;
 }
-.card-blog-content .card-title {
- font-size: 1.2rem;
+
+.card-blog-content .game-title {
+ font-size: 1rem;
  margin: 0 0 6px 0;
  color: #333;
 }
-.card-blog-content .card-excerpt {
+.card-blog-content .platform {
+ font-size: 0.95rem;
+ color: #666;
+ /* line-height: 1.4; */
+}.card-blog-content .play-date {
+ font-size: 0.95rem;
+ color: #666;
+ /* line-height: 1.4; */
+}.card-blog-content .play-status {
+ font-size: 0.95rem;
+ color: #666;
+ /* line-height: 1.4; */
+}.card-blog-content .play-time-minutes {
+ font-size: 0.95rem;
+ color: #666;
+ line-height: 1.4;
+}.card-blog-content .review {
+ font-size: 0.95rem;
+ color: #666;
+ line-height: 1.4;
+}
+.card-blog-content .star_level {
  font-size: 0.95rem;
  color: #666;
  line-height: 1.4;
