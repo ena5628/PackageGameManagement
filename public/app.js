@@ -1,7 +1,9 @@
 'use strict';
 //起動時に実行
-document.addEventListener('DOMContentLoaded',() =>{
-    ScreenReload();
+document.addEventListener('DOMContentLoaded',async() =>{
+    await ScreenReload();
+
+    EditGameCard();  // ゲームカード編集イベントの実行
 });
 
 // 新規ゲーム追加処理
@@ -98,7 +100,7 @@ const CreatePanel = (values,url) =>{
     const time = `${hour}時間 ${minutes}分`;
 
     const htmlText =  `
-    <div class="card-blog-a">
+    <div class="card-blog-a" data-game-id="${values.game_id}">
         <img src="${url}" alt="記事画像">
             <div class="card-blog-content">
                 <h3 class="game-title">ゲームタイトル：${values.game_title}</h3>
@@ -115,19 +117,6 @@ const CreatePanel = (values,url) =>{
     GameCard.insertAdjacentHTML('beforeend',htmlText);
 
 }
-
-// ゲームカードをクリックしたら編集画面に遷移する処理
-const EditGameCard = () =>{
-    const editButton = document.querySelector(".GameCard");  // GameCardクラスの要素を取得
-
-    editButton.addEventListener('click',(e) =>{
-
-    });
-
-
-
-}
-
 
 // 画面再描画処理
 const ScreenReload = async() =>{
@@ -149,4 +138,32 @@ const ScreenReload = async() =>{
 
 }
 
+
+
+// ゲームカードをクリックしたら編集画面に遷移する処理
+const EditGameCard = async() =>{
+    const editButton = document.querySelectorAll(`.card-blog-a`);  // GameCardクラスの要素を取得
+
+    console.log(editButton);
+    editButton.forEach(cardElement =>{
+        cardElement.addEventListener('click',(e) =>{
+        
+            e.preventDefault();  // デフォルトのイベントをキャンセル（画面遷移を防ぐ）
+            
+            const ClickedElement = e.target.closest('.card-blog-a');  // クリックされた要素の親要素を取得
+
+            if(ClickedElement){
+                const gameID = ClickedElement.dataset.gameId;  // クリックした要素のdata-game-id属性を取得
+
+                console.log(gameID);  // クリックした要素のIDを確認
+                
+                // window.location.href = `./edit.html?gameId=${gameID}`;  // 画面遷移
+            }
+
+        });
+    })
+
+
+
+}
 
