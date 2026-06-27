@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded',() =>{
 // 新規ゲーム追加処理
 let CreateGameCard = document.getElementById("CreateGameCard");
 
-// 画面遷移
 CreateGameCard.addEventListener('click',(e) =>{
-    window.location.href = './form.html';
+    window.location.href = './form.html';  // 画面遷移
 },false);
 
 // JSON形式でデータを受け取る処理
@@ -50,6 +49,41 @@ const getByBInaryData = async(response) => {
     return url;  // 画像のURLデータを返す
 }
 
+// データベースからデータを取得する処理
+const ResponseData = async() =>{
+const responseJson = await fetch('http://localhost:3000/mainscreen/reload/getJson');  // JSONデータを取得しレスポンスを返す
+
+        const GameDataArray = await getByJsonData(responseJson);  // レスポンスしたJSONデータをオブジェクトの配列で取得
+
+        const gameImagePathArr = [];  // 画像パスの文字列配列
+
+        // 画像パスの配列を作成
+        for(let i = 0; i < GameDataArray.length; i++){
+            gameImagePathArr.push(GameDataArray[i].game_image_path); 
+        }
+
+        console.log(gameImagePathArr);
+
+        // fetchを一斉に走らせてそのPromiseをmapに格納(mapでループさせることにより結果を返す)
+        const fetchPromise = gameImagePathArr.map((imagepath) =>{
+            return fetch(`http://localhost:3000/mainscreen/reload/getBinary/${imagepath}`);
+        });
+
+
+        // fetchがすべて終わるまで待つ（非同期同時処理）
+        const resposeBinary =  await Promise.all(fetchPromise);
+
+        // ここでできるresponseBinaryは複数のfetchを実行したので配列となる
+        console.log(resposeBinary)
+        const url = await getByBInaryData(resposeBinary);  // url取得
+
+        console.log(url);
+
+        return {GameDataArray,url};  // 取得したデータを返す
+
+}
+
+
 // html部分の作成（ゲームカード）
 const CreatePanel = (values,url) =>{
     const GameCard = document.querySelector('.GameCard');
@@ -82,40 +116,28 @@ const CreatePanel = (values,url) =>{
 
 }
 
+// ゲームカードをクリックしたら編集画面に遷移する処理
+const EditGameCard = () =>{
+    const editButton = document.querySelector(".GameCard");  // GameCardクラスの要素を取得
+
+    editButton.addEventListener('click',(e) =>{
+
+    });
+
+
+
+}
+
 
 // 画面再描画処理
 const ScreenReload = async() =>{
     try{
-        const responseJson = await fetch('http://localhost:3000/mainscreen/reload/getJson');
 
-        const GameDataArray = await getByJsonData(responseJson);  // JSONデータをオブジェクトの配列で取得
-
-        const gameImagePathArr = [];  // 画像パスの文字列配列
-
-        for(let i = 0; i < GameDataArray.length; i++){
-            gameImagePathArr.push(GameDataArray[i].game_image_path); 
-        }
-
-        console.log(gameImagePathArr);
-
-        // fetchを一斉に走らせる(mapでループさせることにより結果を返す)
-        const fetchPromise = gameImagePathArr.map((imagepath) =>{
-            return fetch(`http://localhost:3000/mainscreen/reload/getBinary/${imagepath}`);
-        });
-
-
-        // fetchがすべて終わるまで待つ（非同期同時処理）
-        const resposeBinary =  await Promise.all(fetchPromise);
-
-        // ここでできるresponseBinaryは複数のfetchを実行したので配列となる
-        console.log(resposeBinary)
-        const url = await getByBInaryData(resposeBinary);  // url取得
-
-        console.log(url);
+        const responseData = await ResponseData();  // データ取得処理
 
         // GamePanelの作成（受け取ったデータの数に合わせて）
-        for(let i = 0; i < GameDataArray.length; i++){
-            CreatePanel(GameDataArray[i],url[i]);
+        for(let i = 0; i < responseData.GameDataArray.length; i++){
+            CreatePanel(responseData.GameDataArray[i],responseData.url[i]);
         }
 
         // const resposeBinary = await fetch('http://localhost:3000/mainscreen/reload/getBinary');

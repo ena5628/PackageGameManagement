@@ -64,6 +64,7 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
                    (game_title,platform,play_date,play_status,play_time_minutes,review,star_level,game_image_path)
                    VALUES (?,?,?,?,?,?,?,?)`;  // プレースホルダでセキュリティ対策
 
+    // パラメータ
     const values = [gameTitle,platform,playDate,playStatus,playTImeMinute,review,starLevel,gameImagePath];
 
     connection.query(insert_query,values, (err,results) =>{
