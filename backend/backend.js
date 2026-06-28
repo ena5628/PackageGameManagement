@@ -82,10 +82,11 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
 });
 
 
-// データベースからJSONデータを取得する処理
+// データベースからJSONデータを取得する処理（全件取得）
 app.get('/mainscreen/reload/getJson',(req,res) => {
-    const select_query = 'select * from package_game';  // 全件取得
-    connection.query(select_query,(err,results) =>{
+    
+    const select_all_query = 'select * from package_game';  // 全件取得
+    connection.query(select_all_query,(err,results) =>{
         if(err){
             console.error(err);
             return res.status(500).send('DBエラー');
@@ -110,7 +111,21 @@ app.get('/mainscreen/reload/getBinary/:imagepath',(req,res) => {
 });
 
 
+// データベースからデータを取得（特定のIDのデータ）
+app.get('/mainscreen/editCard/getJson/:gameID',(req,res) => {
+    const params = req.params.gameID;  // URLの末尾の動的なパラメータを取得
 
+    const select_query = 'select * from package_game where game_id = ?';  // プレースホルダでセキュリティ対策
 
+    connection.query(select_query,params,(err,result) =>{
+        if(err){
+            console.error(err);
+            return res.status(500).send('DBエラー');
+        }
+
+        console.log(result);
+        res.json(result);  // JSON形式で返す
+    });
+});
 
 app.listen(3000);  // ポートの受付

@@ -20,7 +20,7 @@ const getByJsonData = async(response) =>{
         const gameDataArray = await response.json(); // JSON形式の値を自動的にオブジェクトに変換
         console.log(gameDataArray); 
 
-        return gameDataArray;  // オブジェクトの配列データを返す
+        return gameDataArray;  // オブジェクトのデータを返す
     }
     else{
         console.log('JSON取得失敗');
@@ -28,9 +28,20 @@ const getByJsonData = async(response) =>{
 }
 
 // バイナリデータを受け取る処理
-const getByBInaryData = async(response) => {
+const getByBinaryData = async(response) => {
     console.log('関数に渡されたもの：',response);
     const url = [];  // URLを生成
+
+    // responseが配列かどうかを判定
+    if(!Array.isArray(response)){
+        const blob = await response.blob();  // バイナリデータの取得
+        
+        let createUrl = URL.createObjectURL(blob);  // URLを生成 
+
+        url.push(createUrl);  // 配列に作成したURL追加
+
+        return url;  // 画像のURLデータを返す
+    }
 
     // 配列responseを一つずつ順に解析
     for(const res of response){
@@ -77,7 +88,7 @@ const responseJson = await fetch('http://localhost:3000/mainscreen/reload/getJso
 
         // ここでできるresponseBinaryは複数のfetchを実行したので配列となる
         console.log(resposeBinary)
-        const url = await getByBInaryData(resposeBinary);  // url取得
+        const url = await getByBinaryData(resposeBinary);  // url取得
 
         console.log(url);
 
@@ -146,7 +157,7 @@ const EditGameCard = async() =>{
 
     console.log(editButton);
     editButton.forEach(cardElement =>{
-        cardElement.addEventListener('click',(e) =>{
+        cardElement.addEventListener('click',async(e) =>{
         
             e.preventDefault();  // デフォルトのイベントをキャンセル（画面遷移を防ぐ）
             
@@ -157,6 +168,20 @@ const EditGameCard = async() =>{
 
                 console.log(gameID);  // クリックした要素のIDを確認
                 
+                const responseJSON = await fetch(`http://localhost:3000/mainscreen/editCard/getJson/${gameID}`);  // IDをもとにデータベースからデータを取得
+
+                const gameData = await getByJsonData(responseJSON);  // JSONデータをオブジェクトで取得
+
+                const gameImagePath = gameData[0].game_image_path;  // 画像パスを取得
+
+                console.log(gameImagePath);  // 画像パスを確認
+
+                const responseBinary = await fetch(`http://localhost:3000/mainscreen/reload/getBinary/${gameImagePath}`);  // 画像データを取得
+
+                const url = await getByBinaryData(responseBinary);  // 画像のURLを取得
+
+                console.log(url[0]);
+
                 // window.location.href = `./edit.html?gameId=${gameID}`;  // 画面遷移
             }
 
