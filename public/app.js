@@ -181,8 +181,13 @@ const EditGameCard = async() =>{
                 const url = await getByBinaryData(responseBinary);  // 画像のURLを取得
 
                 console.log(url[0]);
+            
+                // 取得したデータをsessionoStorageに保存
+                sessionStorage.setItem('gameData',JSON.stringify(gameData[0]));
+                sessionStorage.setItem('gameImageUrl',url[0]);  // 画像のURLをsessionStorageに保存
+                  // 取得したデータをsessionStorageに保存
+                // window.location.href = `./edit.html`;  // 編集画面に遷移
 
-                // window.location.href = `./edit.html?gameId=${gameID}`;  // 画面遷移
             }
 
         });
