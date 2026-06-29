@@ -4,8 +4,10 @@ const mysql = require("mysql2");     // mysql2パッケージの読み込み
 const multer = require("multer");    // multerの読み込み（ファイルデータをリクエストで受け取る）
 const cors = require("cors");        // corsの読み込み（保護用ブロック解除を許可）
 require('dotenv').config();          // .envファイルの読み込み
+const path = require("path");        
+const fs = require('fs');            // fsパッケージの読み込み
 const app = express();
-const path = require("path");
+
 
 // フロントエンドに対してcorsを許可
 app.use(cors({
@@ -36,11 +38,25 @@ connection.connect((err) =>{
     console.log('success');  // 接続成功
 });
 
+// 古い画像をフォルダから削除する処理
+const deleteFile = (deletepath) =>{
+    fs.unlink(deletepath, (err) =>{
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log(`deleted ${deletepath}`);
+    });
+}
+
+
 
 // insert,update共通部分
-const sharedGameFormHandle = (req,res,query,successComment) =>{
+const sharedGameFormHandle = (req,res,query,successComment,uploadPath) =>{
+    
+    // console.log(uploadPath);
     // リクエストで受け取った値たち
-    console.log(req);
+    // console.log(req);
 
     const gameTitle = req.body.GameTitle;
     const platform = req.body.PlayPackageKinds;
@@ -53,11 +69,18 @@ const sharedGameFormHandle = (req,res,query,successComment) =>{
     const starLevel = req.body.RecommendedLevel;
 
     let gameImagePath = null;  // 画像が送られてきてない場合を考慮
+
+    const oldImagePath = path.basename(req.body.OldImagePath);
+    const deletePath = path.join(uploadPath,oldImagePath);  // 削除するファイルのパスを指定
+
+    console.log(deletePath);
     if(req.files && req.files.length > 0){
         gameImagePath = req.files[0].filename;   // 画像の名前
+
+        deleteFile(deletePath);  // フォルダ内の古い画像を削除
     }
     else if(req.body.OldImagePath){
-        gameImagePath = req.body.OldImagePath;
+        gameImagePath = oldImagePath;
     }
     else{
         gameImagePath = "default_image.png";  // デフォルトの画像を設定
@@ -79,7 +102,7 @@ const sharedGameFormHandle = (req,res,query,successComment) =>{
             return res.status(500).send("エラーが発生しました");  // ステータスコードを返す
         }
 
-        // 1件追加できた場合
+        // 実行できた場合
         if(results.affectedRows === 1){
             console.log(successComment);
             return res.status(200).send(successComment);
@@ -101,7 +124,7 @@ app.post('/form/insert', image.any(),(req,res) =>{
                    VALUES (?,?,?,?,?,?,?,?)`;  // プレースホルダでセキュリティ対策
     
     // 共通部分の呼び出し（クエリ実行）
-    sharedGameFormHandle(req,res,insert_query,"登録成功しました");
+    sharedGameFormHandle(req,res,insert_query,"登録成功しました",uploadPath);
 
 });
 
@@ -113,7 +136,7 @@ app.post('/form/update',image.any(),(req,res) =>{
                           WHERE game_id=?`;
 
     // 共通部分の呼び出し（クエリ実行）
-    sharedGameFormHandle(req,res,update_query,"登録成功しました");
+    sharedGameFormHandle(req,res,update_query,"登録成功しました",uploadPath);
 });
 
 
