@@ -49,7 +49,7 @@ const inputGameData = (gameData, gameImageUrl) => {
     console.log('ゲームデータの値:', gameDataArr);
 
     // // 画面に値を挿入
-    // const gameImageElement = document.getElementById('GameImage');  // ゲーム画像の要素を取得
+    //const gameImageElement = document.getElementById('GameImage');  // ゲーム画像の要素を取得
 
     // gameImageElement.src = gameImageUrl;  // ゲーム画像のURLを挿入
 

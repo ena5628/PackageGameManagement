@@ -97,23 +97,42 @@ input[type="text"] ::placeholder {
     color: #999;
 }
 
-/* 画像エリア */
+
+/* 画像を囲むコンテナ */
 #GameImagePhotoWrapper {
     display:flex;
-    gap:10px;
+    flex-direction: column;
+    gap:0px;
 }
 
+/* 画像エリア */
+#GameImage{
+    width: 500px;
+    height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+#GameImage:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
 
 .GameImagePhotoButton{
-    border: 2px red dotted;
-    padding: 100px 100px;
+    padding: 20px 20px;
     position: relative;
     width: fit-content;
 }
 /* 画像挿入ボタン */
 .GameImagePhotoButton::file-selector-button{
     position: absolute;
-    top: 50%;
+    top:5px;
+    left:10px;
     font-weight: bold;
     color: white;
     background: red;
@@ -280,6 +299,7 @@ input[type="number"]::-webkit-inner-spin-button {
   box-shadow: 0 5px 0 #83c1ff;
   display: inline-block;
   transition: .3s;
+  cursor: pointer;
 }
 #RegistrationButton:hover {
   color: #83c1ff;
