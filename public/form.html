@@ -15,7 +15,7 @@
                 <label>イメージ画像</label>
                 <div id="GameImagePhotoWrapper">
                     <img id="GameImage" src="../Image/default_image.png" alt="ゲーム画像" />
-                    <input type="file" id="GameImagePhoto" class="GameImagePhotoButton" name="GameImagePhoto"/>
+                    <input type="file" id="GameImagePhotoButton" class="GameImagePhotoButton" name="GameImagePhoto"/>
                 </div>
             </div>
             <div class="form-group">
@@ -70,7 +70,7 @@
                     <span id="StarRating" class="star5_rating"></span>
                     <label id="StarLevelLabel">5</label>
                 </div>
-                <input type="hidden" id="RecommendedLevel" name="RecommendedLevel" value="5" />
+                <input type="hidden" id="RecommendedLevel" name="RecommendedLevel" value="0" />
             </div>
             <div class="form-group">
                 <input id="RegistrationButton" type="submit" value="登録!!"> 
@@ -78,5 +78,6 @@
         </form>
     </div>
 <script src="./form.js" defer></script>
+<script src="./editcard.js" defer></script>
 </body>
 </html>

@@ -1,5 +1,64 @@
 'use strict'
 
+// 起動時にモードを判定して表示を切り替える
+document.addEventListener('DOMContentLoaded',(e) =>{
+    const { gameData, gameImageUrl } = getSessionStorageData();  // sessionStorageからデータを取得
+    const submitButton = document.getElementById('RegistrationButton');
+
+    // 共通の処理
+    PlayTimeOverSolution();  // プレイ時間超過測定
+    PlayTimeDisable();       // 未開封状態にプレイ時間を入力させないようにする
+    imagePhotoChange();      // file変更時に表示している画像を変更
+
+    // sesionStorageが取得できたかチェック（モード切替用）
+    if (gameData && gameImageUrl) {
+        console.log('編集モードで起動しました');
+
+        document.getElementById('MainText').textContent = 'ゲーム情報の編集';
+        if (submitButton){
+          submitButton.textContent = '更新する';
+        } 
+        inputGameData(gameData, gameImageUrl);  // ゲームカードの挿入処理
+        
+        createStar(gameData.star_level);  // スターのイベント処理
+
+        SendToData('edit');  // 編集処理用のapi呼び出し
+
+    }
+    else{
+        console.log('新規登録モードで起動しました');
+
+        createStar();                   // おすすめ度イベントの実行
+
+        SendToData('insert');            // フォームの入力値をデータベース側に送る処理
+    }
+  
+
+});
+
+// 画像選択時にimgタグのsrcを変更する処理
+const imagePhotoChange = () =>{
+  const GameImage = document.getElementById('GameImage');  // imgタグ
+  const GameImagePhotoButton = document.getElementById('GameImagePhotoButton'); // input(file)
+
+  GameImagePhotoButton.addEventListener('change',(e) =>{
+    const file = e.target.files[0];
+
+    // ファイルが見つかった場合
+    if(file){
+      const imageURL = URL.createObjectURL(file);  // URL生成
+
+      GameImage.src = imageURL;  // imgタグに挿入
+    }
+    else{
+      console.log(file);
+    }
+  });
+
+}
+
+
+
 // ☆マークの描画＆値取得処理
 const createStar = (initialValue) => {
   const starElement = document.querySelector('.star5_rating');
@@ -94,10 +153,7 @@ const PlayTimeOverSolution = () =>{
 }
 
 
-// 実行場所（フロント部分）
-createStar();
-PlayTimeOverSolution();
-PlayTimeDisable();
+
 
 
 
@@ -151,7 +207,6 @@ const SendToData = async () =>{
 
 };
 
-SendToData();
 
 
 

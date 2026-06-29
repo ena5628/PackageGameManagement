@@ -1,17 +1,17 @@
-// 起動時に実行
-document.addEventListener('DOMContentLoaded', () => {
-    const { gameData, gameImageUrl } = getSessionStorageData();  // sessionStorageからデータを取得
+// // 起動時に実行
+// document.addEventListener('DOMContentLoaded', () => {
+//     // 取得できたかチェック
+//     if (gameData && gameImageUrl) {
+//         inputGameData(gameData, gameImageUrl);  // ゲームカードの挿入処理
+        
+//         createStar(gameData.star_level);  // スターのイベント処理
+//         imagePhotoChange();      // file変更時に表示している画像を変更
 
-    // 取得できたかチェック
-    if (gameData && gameImageUrl) {
-        inputGameData(gameData, gameImageUrl);  // ゲームカードの挿入処理
-        // スターの作成処理
-        createStar(gameData.star_level);
-    }
-    else{
-        console.log('SessionStorageにデータが存在しません。');
-    }
-});
+//     }
+//     else{
+//         console.log('SessionStorageにデータが存在しません。');
+//     }
+// });
 
 // sessionStorageからデータを取得する処理
 const getSessionStorageData = () =>{
@@ -23,6 +23,7 @@ const getSessionStorageData = () =>{
 
     return { gameData, gameImageUrl };
 }
+
 
 // ゲームカードの挿入処理
 const inputGameData = (gameData, gameImageUrl) => {
@@ -76,4 +77,6 @@ const inputGameData = (gameData, gameImageUrl) => {
     }
 
 };
+
+
 

@@ -186,7 +186,7 @@ const EditGameCard = async() =>{
                 sessionStorage.setItem('gameData',JSON.stringify(gameData[0]));
                 sessionStorage.setItem('gameImageUrl',url[0]);  // 画像のURLをsessionStorageに保存
             
-                window.location.href = `./editcard.html`;  // 編集画面に遷移     
+                window.location.href = `./form.html`;  // 編集画面に遷移     
 
             }
 
