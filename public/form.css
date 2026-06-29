@@ -44,6 +44,9 @@ input[type="text"].error-style {
 
 
 #MainText{
+    top:0;
+    margin: 0 auto;
+    font-size: 2.5rem;
     font-weight: bold;
     color: #c9c7c7;
     text-shadow: #b0b0b0;
