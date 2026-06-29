@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded',(e) =>{
 
         document.getElementById('MainText').textContent = 'ゲーム情報の編集';
         if (submitButton){
-          submitButton.textContent = '更新する';
+          submitButton.value = '更新する';
         } 
         inputGameData(gameData, gameImageUrl);  // ゲームカードの挿入処理
         
@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded',(e) =>{
     }
     else{
         console.log('新規登録モードで起動しました');
+
+        document.getElementById('MainText').textContent = '新規ゲーム追加フォーム';
+        if (submitButton){
+          submitButton.value = '登録する';
+        } 
 
         createStar();                   // おすすめ度イベントの実行
 
@@ -165,20 +170,35 @@ const PlayTimeOverSolution = () =>{
 }
 
 
-
-
-
-
-// fetchの非同期処理
-const FetchToForm = async (formData) =>{
-    return await fetch('http://localhost:3000/form', {
+// fetchの非同期処理（insert）
+const FetchToFormInsert = async (formData) =>{
+    return await fetch('http://localhost:3000/form/insert', {
     method:'POST',
     body: formData
   });
 }
 
+// fetchの非同期処理（update）
+const FetchToFormUpdate = async (formData) =>{
+  const sessionGameData = JSON.parse(sessionStorage.getItem('gameData')); 
+      
+  // 2. オブジェクトがちゃんと存在していれば、その中の「game_id」をピンポイントで取得
+  const gameId = sessionGameData ? sessionGameData.game_id : null;
+  
+  console.log(gameId);
+
+  // formDataだけをオブジェクトとして送りたいのでappendで追加
+  if (gameId) {
+      formData.append('GameId', gameId); 
+  } 
+  return await fetch('http://localhost:3000/form/update', {
+  method:'POST',
+  body: formData
+  });
+}
+
 // データ送信処理
-const SendToData = async () =>{
+const SendToData = async (select_mode) =>{
   const GameForm = document.getElementById("GameForm");  // formタグのid
 
   GameForm.addEventListener('submit', async (e) => {
@@ -196,18 +216,38 @@ const SendToData = async () =>{
       // console.log(allData);
 
       try {
-        const response = await FetchToForm(formData);  // fetchの呼び出し（レスポンス格納）
-        
-        const status = await response.text();
+        // 引数（選択されたモード）によってapi呼び出し先を変える
+        if(select_mode === 'edit'){
+          const response = await FetchToFormUpdate(formData);  // fetchの呼び出し（レスポンス格納）
 
-        if(response.ok){
-            console.log('接続成功');
-            console.log(status);
+          const status = await response.text();
+
+          if(response.ok){
+              console.log('接続成功');
+              console.log(status);
+          }
+          else{
+              console.log('接続できませんでした');
+              console.log(status);
+          }
         }
-        else{
-            console.log('接続できませんでした');
-            console.log(status);
+        else if(select_mode === 'insert'){
+          const response = await FetchToFormInsert(formData);  // fetchの呼び出し（レスポンス格納）
+
+          const status = await response.text();
+
+          if(response.ok){
+              console.log('接続成功');
+              console.log(status);
+          }
+          else{
+              console.log('接続できませんでした');
+              console.log(status);
+          }
         }
+        
+
+
       }
       catch(error){
         console.error("接続失敗：" + error);

@@ -36,18 +36,19 @@ connection.connect((err) =>{
     console.log('success');  // 接続成功
 });
 
-// 画像保存先パスの指定
-const uploadPath = path.join(__dirname,'..','Image'); 
 
-// formから送られたデータをデータベースに格納
-const image = multer({dest:uploadPath});
-app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
+// insert,update共通部分
+const sharedGameFormHandle = (req,res,query,successComment) =>{
     // リクエストで受け取った値たち
+    console.log(req);
+
     const gameTitle = req.body.GameTitle;
     const platform = req.body.PlayPackageKinds;
     const playDate = req.body.PlayDate;
     const playStatus = req.body.PlayStatus;
-    const playTImeMinute = (req.body.PlayTimeHour * 60) + (req.body.PlayTimeMinute || 0);
+    const hour =  parseInt(req.body.PlayTimeHour * 60);
+    const minutes =  parseInt(req.body.PlayTimeMinute || 0);
+    const playTImeMinute = hour + minutes;
     const review = req.body.Review;
     const starLevel = req.body.RecommendedLevel;
 
@@ -59,26 +60,57 @@ app.post('/form', image.array('GameImagePhoto',1),(req,res) =>{
         gameImagePath = "default_image.png";  // デフォルトの画像を設定
     }
 
-
-    const insert_query = `INSERT INTO package_game 
-                   (game_title,platform,play_date,play_status,play_time_minutes,review,star_level,game_image_path)
-                   VALUES (?,?,?,?,?,?,?,?)`;  // プレースホルダでセキュリティ対策
-
     // パラメータ
     const values = [gameTitle,platform,playDate,playStatus,playTImeMinute,review,starLevel,gameImagePath];
 
-    connection.query(insert_query,values, (err,results) =>{
+    // game_idがある場合（update用）
+    if(req.body.GameId){
+        values.push(req.body.GameId);
+    }
+
+
+    // クエリ実行
+    connection.query(query,values, (err,results) =>{
         if(err){
-            console.err("データを追加できませんでした：" + err);
+            console.error("データを追加できませんでした：" + err);
             return res.status(500).send("エラーが発生しました");  // ステータスコードを返す
         }
 
         // 1件追加できた場合
         if(results.affectedRows === 1){
-            console.log("データを追加しました");
-            return res.status(200).send("追加できました");
+            console.log(successComment);
+            return res.status(200).send(successComment);
         }
     });
+}
+
+
+
+// 画像保存先パスの指定
+const uploadPath = path.join(__dirname,'..','Image'); 
+
+const image = multer({dest:uploadPath});
+// 新規登録処理
+app.post('/form/insert', image.any(),(req,res) =>{
+
+    const insert_query = `INSERT INTO package_game 
+                   (game_title,platform,play_date,play_status,play_time_minutes,review,star_level,game_image_path)
+                   VALUES (?,?,?,?,?,?,?,?)`;  // プレースホルダでセキュリティ対策
+    
+    // 共通部分の呼び出し（クエリ実行）
+    sharedGameFormHandle(req,res,insert_query,"登録成功しました");
+
+});
+
+// 更新処理
+app.post('/form/update',image.any(),(req,res) =>{
+
+    const update_query = `UPDATE package_game
+                          SET game_title=?, platform=?, play_date=?, play_status=?, play_time_minutes=?,review=?, star_level=?, game_image_path=?
+                          WHERE game_id=?`;
+
+    // 共通部分の呼び出し（クエリ実行）
+    sharedGameFormHandle(req,res,update_query,"登録成功しました");
 });
 
 

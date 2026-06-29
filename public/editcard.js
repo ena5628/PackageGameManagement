@@ -1,17 +1,4 @@
-// // 起動時に実行
-// document.addEventListener('DOMContentLoaded', () => {
-//     // 取得できたかチェック
-//     if (gameData && gameImageUrl) {
-//         inputGameData(gameData, gameImageUrl);  // ゲームカードの挿入処理
-        
-//         createStar(gameData.star_level);  // スターのイベント処理
-//         imagePhotoChange();      // file変更時に表示している画像を変更
-
-//     }
-//     else{
-//         console.log('SessionStorageにデータが存在しません。');
-//     }
-// });
+'use strict'
 
 // sessionStorageからデータを取得する処理
 const getSessionStorageData = () =>{
