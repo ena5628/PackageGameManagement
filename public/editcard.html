@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EditCard</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <button type="button" id="BackButton" onclick="location.href='./index.html'">←</button>
+    <h1 id="MainText" >EditCardScreen</h1>
+    <div id="MainPanel">
+        <form id="GameForm"  enctype="multipart/form-data">
+            <div class="form-group">
+                <label>イメージ画像</label>
+                <img id="GameImage" src="" alt="ゲーム画像" />
+                <!-- <div id="GameImagePhotoWrapper">
+                    <input type="file" id="GameImagePhoto" class="GameImagePhotoButton" name="GameImagePhoto"/>
+                </div> -->
+            </div>
+            <div class="form-group">
+                <label for="GameTitle">ゲームタイトル名<span class="RequiredSymbol">*</span></label>
+                <input type="text" id="GameTitle" name="GameTitle" placeholder="タイトル名を入力" required/>
+            </div>
+            <div class="form-group">
+                <label>ゲームの種類<span class="RequiredSymbol">*</span></label>
+                <div id="SelectWrapper">
+                    <select id="PlayPackageKinds" name="PlayPackageKinds" required>
+                        <option value="">選択してください</option>
+                        <option value="Steam">Steam</option>
+                        <option value="Switch">Switch</option>
+                        <option value="PS4">PS4</option>
+                        <option value="PS5">PS5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="PlayDate">購入日</label>
+                <label id="PlayDateLabel">
+                    <input type="date" id="PlayDate" name="PlayDate" />
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="PlayStatus">進捗状況<span class="RequiredSymbol">*</span></label>
+                <div id="SelectWrapper">
+                    <select id="PlayStatus" name="PlayStatus" required>
+                        <option value="">選択してください</option>
+                        <option value="未開封">未開封</option>
+                        <option value="プレイ中">プレイ中</option>
+                        <option value="クリア済み">クリア済み</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>プレイ時間</label>
+                <div id="PlayTime">
+                    <input type="number" id="PlayTimeHour" name="PlayTimeHour" min="0" max="9999" placeholder="△△" /> <span class="TimeLabel">時間</span>
+                    <input type="number" id="PlayTimeMinute" name="PlayTimeMinute" min="0" max="59" placeholder="△△" /> <span class="TimeLabel">分</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Review">レビュー</label>
+                <div id="ReviewWrapper">
+                    <textarea id="Review" name="Review" placeholder="レビュー内容を入力"></textarea>
+                </div>            
+            </div>
+            <div class="form-group">
+                <label>おすすめ度</label>
+                <div id="StarArea">
+                    <span id="StarRating" class="star5_rating"></span>
+                    <label id="StarLevelLabel">5</label>
+                </div>
+                <input type="hidden" id="RecommendedLevel" name="RecommendedLevel" value="5" />
+            </div>
+            <div class="form-group">
+                <input id="RegistrationButton" type="submit" value="登録!!"> 
+            </div>
+        </form>
+    </div>
+</body>
+</html>
