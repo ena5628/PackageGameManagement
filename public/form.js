@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded',(e) =>{
     PlayTimeOverSolution();  // プレイ時間超過測定
     PlayTimeDisable();       // 未開封状態にプレイ時間を入力させないようにする
     imagePhotoChange();      // file変更時に表示している画像を変更
+    sessionClear();          // sessionStorageのクリア
 
     // sesionStorageが取得できたかチェック（モード切替用）
     if (gameData && gameImageUrl) {
@@ -35,6 +36,17 @@ document.addEventListener('DOMContentLoaded',(e) =>{
   
 
 });
+
+// BackButtonが押された際にsessionStorageの内容をクリアする処理
+const sessionClear = () =>{
+  const BackButton = document.getElementById('BackButton');
+
+  BackButton.addEventListener('click',(e) =>{
+    sessionStorage.clear();  // sessionStorageのクリア
+  });
+  
+}
+
 
 // 画像選択時にimgタグのsrcを変更する処理
 const imagePhotoChange = () =>{
