@@ -184,13 +184,20 @@ const FetchToFormUpdate = async (formData) =>{
       
   // 2. オブジェクトがちゃんと存在していれば、その中の「game_id」をピンポイントで取得
   const gameId = sessionGameData ? sessionGameData.game_id : null;
+
+  const oldImagePath = sessionGameData ? sessionGameData.game_image_path : null;
   
   console.log(gameId);
+  console.log(oldImagePath);
 
   // formDataだけをオブジェクトとして送りたいのでappendで追加
   if (gameId) {
-      formData.append('GameId', gameId); 
+    formData.append('GameId', gameId); 
   } 
+  // 編集前の画像データを送る
+  if(oldImagePath){
+    formData.append('OldImagePath',oldImagePath);
+  }
   return await fetch('http://localhost:3000/form/update', {
   method:'POST',
   body: formData

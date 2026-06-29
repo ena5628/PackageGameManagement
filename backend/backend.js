@@ -56,6 +56,9 @@ const sharedGameFormHandle = (req,res,query,successComment) =>{
     if(req.files && req.files.length > 0){
         gameImagePath = req.files[0].filename;   // 画像の名前
     }
+    else if(req.body.OldImagePath){
+        gameImagePath = req.body.OldImagePath;
+    }
     else{
         gameImagePath = "default_image.png";  // デフォルトの画像を設定
     }
