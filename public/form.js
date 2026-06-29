@@ -1,26 +1,25 @@
 'use strict'
 
-// const { error } = require("node:console");
-
-/**
- * 評価を星の数として出力
- */
-
-// const createStar = () => {
-//   const starElement = document.querySelector('.star5_rating');
-//   const review = document.querySelector('.card-review-number').textContent;
-//   const roundReview = Math.round(review * 10) / 10;
-//   const widthPercentage = roundReview * 20;
-//   starElement.style.setProperty('--starWidth', `${widthPercentage}%`);
-// };
-
 // ☆マークの描画＆値取得処理
-const createStar = () => {
+const createStar = (initialValue) => {
   const starElement = document.querySelector('.star5_rating');
   const hiddenInput = document.getElementById('RecommendedLevel');  
   const StarLevelLabel = document.getElementById('StarLevelLabel');
 
-  starElement.addEventListener('click', (e) => {
+  const updateStarDisplay = (score) => {
+    const widthPercentage = (score / 5) * 100;  // 5段階評価を100%に換算
+    starElement.style.setProperty('--starWidth', `${widthPercentage}%`);
+    hiddenInput.value = score;
+    if(StarLevelLabel){
+      StarLevelLabel.textContent = score;  // ラベルに表示
+    }
+  }
+
+  let currentScore = initialValue !== undefined ? initialValue : 0;  // 初期値が指定されていればそれを使用
+  updateStarDisplay(currentScore);
+
+  // ホバー時
+  starElement.addEventListener('mousemove', (e) => {
     const rect = starElement.getBoundingClientRect();
     const clickX = e.clientX - rect.left; // クリックされた横のいち
     const widthPercentage = Math.round((clickX / rect.width) * 100);
@@ -29,8 +28,29 @@ const createStar = () => {
     let score_num = (widthPercentage / 100) * 5;
     score_num *= 10;  // 小数点第2位で切り捨て
     const score = Math.floor(score_num) / 10;
-    hiddenInput.value = score;           
-    StarLevelLabel.textContent = score;  // ラベルに表示
+    
+    updateStarDisplay(score);
+  });
+
+  // ホバーが外れた時
+  starElement.addEventListener('mouseleave',(e) =>{
+    updateStarDisplay(currentScore);
+  });
+
+  // クリック時
+  starElement.addEventListener('click',(e) =>{
+    const rect = starElement.getBoundingClientRect();
+    const clickX = e.clientX - rect.left; // クリックされた横のいち
+    const widthPercentage = Math.round((clickX / rect.width) * 100);
+    starElement.style.setProperty('--starWidth', `${widthPercentage}%`);
+
+    let score_num = (widthPercentage / 100) * 5;
+    score_num *= 10;  // 小数点第2位で切り捨て
+    const score = Math.floor(score_num) / 10;
+
+    currentScore = score;
+
+    updateStarDisplay(currentScore);
   });
   
   starElement.style.cursor = 'pointer';
@@ -132,6 +152,9 @@ const SendToData = async () =>{
 };
 
 SendToData();
+
+
+
 
 
 // フォーム内容をコンソール出力（確認用）

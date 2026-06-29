@@ -128,10 +128,11 @@ input[type="text"] ::placeholder {
     position: relative;
     width: fit-content;
 }
+
 /* 画像挿入ボタン */
 .GameImagePhotoButton::file-selector-button{
     position: absolute;
-    top:5px;
+    top:7px;
     left:10px;
     font-weight: bold;
     color: white;
@@ -287,12 +288,18 @@ input[type="number"]::-webkit-inner-spin-button {
     display:none;
 }
 
+/* スター値 */
+#StarLevelLabel {
+    margin: 0px 10px;
+}
+
 /* 送信ボタンのデザイン */
 #RegistrationButton {
   background-color: #fff;
   border: solid 2px #83c1ff;
   color: #83c1ff;
   border-radius: 20px;
+  margin: 10px,0px;
   padding: 10px 30px;
   text-decoration: none;
   font-size: 1em;
