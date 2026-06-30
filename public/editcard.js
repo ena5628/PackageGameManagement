@@ -13,7 +13,7 @@ const getSessionStorageData = () =>{
 
 
 // ゲームカードの挿入処理
-const inputGameData = (gameData, gameImageUrl) => {
+const inputGameData = (gameData) => {
     // ゲームデータのキー配列
     const gameKey = ['game_title', 'platform','play_date','play_status','play_time_minutes','review','star_level'];  
     
@@ -54,17 +54,17 @@ const inputGameData = (gameData, gameImageUrl) => {
         GameImage.src = "./Image/default_image.png"; // 画像がない場合の予備
     }
 
-    const inputGameData = document.querySelectorAll('input, select, textarea,hidden');  // input, select, textarea, hiddenの要素を取得
-    console.log('inputGameData:', inputGameData);
+    const inputGameDataValues = document.querySelectorAll('input, select, textarea,hidden');  // input, select, textarea, hiddenの要素を取得
+    console.log('inputGameDataValues:', inputGameDataValues);
 
     let counter = 0;  // カウンターを初期化
     // ゲームデータをフォームに挿入
-    for(let i = 0; i < inputGameData.length; i++){
-        if(inputGameData[i].type === 'file' || inputGameData[i].type === 'submit'){
+    for(let i = 0; i < inputGameDataValues.length; i++){
+        if(inputGameDataValues[i].type === 'file' || inputGameDataValues[i].type === 'submit'){
             continue;  // ファイル入力、送信ボタンスキップ
         }
 
-        inputGameData[i].value = gameDataArr[counter++];  // ゲームデータをフォームに挿入
+        inputGameDataValues[i].value = gameDataArr[counter++];  // ゲームデータをフォームに挿入
 
     }
 

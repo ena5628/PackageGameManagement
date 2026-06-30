@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded',(e) =>{
         if (submitButton){
           submitButton.value = '更新する';
         } 
-        inputGameData(gameData, gameImageUrl);  // ゲームカードの挿入処理
+        inputGameData(gameData);  // ゲームカードの挿入処理
         
         createStar(gameData.star_level);  // スターのイベント処理
 
