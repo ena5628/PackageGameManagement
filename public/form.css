@@ -19,6 +19,17 @@ input[type="text"].error-style {
     
 }
 
+/* 読み取り専用時のデザイン */
+.is-readonly {
+    /* マウス操作を完全に無効化する */
+    pointer-events: none;
+    
+    /* 見た目も読み取り専用っぽくグレーアウトする */
+    background-color: #e0e0e0;
+    color: #888888;
+    border-color: #cccccc;
+}
+
 
 /* 画面遷移ボタンのデザイン */
 #BackButton {
@@ -56,6 +67,7 @@ input[type="text"].error-style {
 /*  */
 /* メインパネル（フォーム） */
 #MainPanel {
+    position:relative;
     padding: 1em 1em;
     margin: 2em 160px;
     color: #FFF;
@@ -97,6 +109,23 @@ input[type="text"] ::placeholder {
     color: #999;
 }
 
+/* 現在のモードを示すラベル */
+#ImageLabelWrapper{
+    display: flex;
+}
+
+.current-mode-text{
+    position: absolute;  /*親要素をもとにする*/
+    right:20px;
+    top:20px;
+    font-size:20px;
+    font-weight:lighter;
+    color: #67d49a;
+    text-shadow: #b0b0b0;
+    text-shadow: 0.5px 1px 1px #333333;
+
+    display: none;  /* 非表示 */
+}
 
 /* 画像を囲むコンテナ */
 #GameImagePhotoWrapper {
@@ -109,6 +138,7 @@ input[type="text"] ::placeholder {
 #GameImage{
     width: 500px;
     height: 300px;
+    margin:10px 0 0 0;
     border: 1px solid #ddd;
     border-radius: 6px;
     overflow: hidden;

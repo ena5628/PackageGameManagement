@@ -4,6 +4,7 @@
 document.addEventListener('DOMContentLoaded',(e) =>{
     const { gameData, gameImageUrl } = getSessionStorageData();  // sessionStorageからデータを取得
     const submitButton = document.getElementById('RegistrationButton');
+    const MainPanel = document.getElementById('MainPanel');
 
     // 共通の処理
     PlayTimeOverSolution();  // プレイ時間超過測定
@@ -13,30 +14,34 @@ document.addEventListener('DOMContentLoaded',(e) =>{
 
     // sesionStorageが取得できたかチェック（モード切替用）
     if (gameData && gameImageUrl) {
-        console.log('編集モードで起動しました');
+      console.log('編集モードで起動しました');
 
-        document.getElementById('MainText').textContent = 'ゲーム情報の編集';
-        if (submitButton){
-          submitButton.value = '更新する';
-        } 
-        inputGameData(gameData);  // ゲームカードの挿入処理
-        
-        createStar(gameData.star_level);  // スターのイベント処理
+      
+      document.getElementById('MainText').textContent = 'ゲーム情報の編集';
+      if (submitButton){
+        submitButton.value = '更新する';
+      } 
 
-        SendToData('edit');  // 編集処理用のapi呼び出し
+      EditMode();  // 読み取り、編集モード切替処理
+
+      inputGameData(gameData);  // ゲームカードの挿入処理
+      
+      createStar(gameData.star_level);  // スターのイベント処理
+
+      SendToData('edit');  // 編集処理用のapi呼び出し
 
     }
     else{
-        console.log('新規登録モードで起動しました');
+      console.log('新規登録モードで起動しました');
 
-        document.getElementById('MainText').textContent = '新規ゲーム追加フォーム';
-        if (submitButton){
-          submitButton.value = '登録する';
-        } 
+      document.getElementById('MainText').textContent = '新規ゲーム追加フォーム';
+      if (submitButton){
+        submitButton.value = '登録する';
+      } 
 
-        createStar();                   // おすすめ度イベントの実行
+      createStar();                   // おすすめ度イベントの実行
 
-        SendToData('insert');            // フォームの入力値をデータベース側に送る処理
+      SendToData('insert');            // フォームの入力値をデータベース側に送る処理
     }
   
 
@@ -48,6 +53,24 @@ const sessionClear = () =>{
 
   BackButton.addEventListener('click',(e) =>{
     sessionStorage.clear();  // sessionStorageのクリア
+  });
+  
+}
+
+// 読み取り編集モード切替用処理
+const EditMode = () =>{
+  const EditButton = document.getElementById('EditButton');
+  const MainPanel = document.getElementById('MainPanel');
+  const CurrentModeLabel = document.querySelector('.current-mode-text');
+
+  MainPanel.classList.add('is-readonly');  // 読み取り専用モード（初回時）
+  CurrentModeLabel.style.display = 'block';
+  
+
+  // クリック時のイベント
+  EditButton.addEventListener('click',(e) =>{
+    e.preventDefault();
+    MainPanel.classList.toggle('is-readonly');
   });
   
 }
