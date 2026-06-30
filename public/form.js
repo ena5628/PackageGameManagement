@@ -59,12 +59,16 @@ const sessionClear = () =>{
 
 // 読み取り編集モード切替用処理
 const EditMode = () =>{
-  const EditButton = document.getElementById('EditButton');
-  const MainPanel = document.getElementById('MainPanel');
-  const CurrentModeLabel = document.querySelector('.current-mode-text');
+  const MainPanel = document.getElementById('MainPanel');    // メインパネル
+  const EditPanel = document.getElementById('EditCardWrapper');  // 編集パネル
+  const EditButton = document.getElementById('EditButton');  // 編集ボタン
+  const CurrentModeLabel = document.querySelector('.current-mode-text'); // モード切替のラベル
+  const SubmitButton = document.getElementById('RegistrationButton');    // 送信ボタン
 
   MainPanel.classList.add('is-readonly');  // 読み取り専用モード（初回時）
+  EditPanel.style.display = 'flex';
   CurrentModeLabel.style.display = 'block';
+  SubmitButton.style.display = 'none';  // 初回時（読み取りモード）非表示
   
 
   // クリック時のイベント
@@ -73,7 +77,9 @@ const EditMode = () =>{
     MainPanel.classList.toggle('is-readonly');
     
     if(CurrentModeLabel.textContent === "MODE：読み取りモード..."){
+      SubmitButton.style.display = 'block';
       CurrentModeLabel.textContent = "MODE：書き込みモード...";
+      CurrentModeLabel.style.color = "#D93A49";
       // 2. ボタンの文字を「読み取りモードにする」に変える
         EditButton.textContent = '読み取りモードにする';
         
@@ -81,7 +87,9 @@ const EditMode = () =>{
         EditButton.style.color = '#000080'; // 編集は赤系にするなど
     }
     else{
+      SubmitButton.style.display = 'none';
       CurrentModeLabel.textContent = "MODE：読み取りモード...";
+      CurrentModeLabel.style.color = "#67d49a";
 
       EditButton.textContent = '書き込みモードにする';
         

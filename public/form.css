@@ -57,33 +57,57 @@ input[type="text"].error-style {
 
 /* 編集＆削除ボタンをまとめたカード */
 #EditCardWrapper {
+    display: none;
     position: absolute;  /* 親：body */
-    display: flex;
     flex-direction: column;
+    z-index: 5;
     right:0px;
     top: 20px;
     gap: 20px;
 }
 
 #ModeCardWrapper, #DeleteCardWrapper {
+    display: flex;
+    flex-direction: column;
     width: 300px;
-    height: 130px;
-
-    z-index: 5;
+    height: 110px;
     border-radius:8px;
-    background-color: #94d768;
+    /* background-color: #94d768; */
     box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
     opacity: 85%;
+    /* 穴あけパンチ部分 */
+    background-image: radial-gradient(circle at 15px 15px, transparent 6px, #94d768 9px);
 }
 
 #DeleteCardWrapper {
-    background-color: rgb(254, 63, 63);
+    /* background-color: rgb(254, 63, 63); */
+    background-image: radial-gradient(circle at 15px 15px, transparent 6px, rgb(254, 63, 63) 9px);
+}
+
+/* パネルのラベル */
+.edit-label {
+    color:#ddffc6;
+    font-size: 14px;
+    margin: 25px 0 0 12px;
+}
+
+.delete-label {
+    color:#fadbd8;
+    font-size: 14px;
+    margin: 25px 0 0 12px;
+
 }
 
 /* 共通スタイル */
 .edit-button, .delete-button {
   display: inline-block;
+  width: 70%;
+  height:35%;
   padding: 0.3em 1em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
   text-decoration: none;
   border-radius: 3px;
   transition: .4s;
