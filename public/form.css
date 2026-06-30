@@ -313,3 +313,76 @@ input[type="number"]::-webkit-inner-spin-button {
   transform: translateY(5px);
   box-shadow: 0 0 0 #83c1ff;
 }
+
+
+/* 背景のオーバーレイ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 表示された時のクラス（JavaScriptで付与） */
+.modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* モーダルの中身 */
+.modal-content {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  transition: transform 0.4s ease;
+}
+
+/* モーダルが開く時の動き */
+.modal-overlay.is-active .modal-content {
+  transform: translateY(0);
+}
+
+/* 成功アイコン */
+.success-icon {
+  width: 60px;
+  height: 60px;
+  background: #4caf50;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin: 0 auto 20px;
+}
+
+/* 閉じるボタン */
+.close-button {
+  margin-top: 25px;
+  padding: 12px 30px;
+  background: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.close-button:hover {
+  background: #0056b3;
+}
