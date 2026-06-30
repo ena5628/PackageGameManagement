@@ -12,6 +12,7 @@ const app = express();
 // フロントエンドに対してcorsを許可
 app.use(cors({
     origin: "http://127.0.0.1:5500"
+    // origin: "*"
 }));
 app.use(express.static(path.join(__dirname,'..','public')));  // 静的ファイル置き場の公開
 
@@ -39,14 +40,16 @@ connection.connect((err) =>{
 });
 
 // 古い画像をフォルダから削除する処理
-const deleteFile = (deletepath) =>{
-    fs.unlink(deletepath, (err) =>{
-        if (err) {
-            console.error(err);
-            return;
+const deleteFile = (deletepath) => {
+    try {
+        // fileExistsの確認をしてから同期削除
+        if (fs.existsSync(deletepath)) {
+            fs.unlinkSync(deletepath);
+            console.log(`deleted ${deletepath}`);
         }
-        console.log(`deleted ${deletepath}`);
-    });
+    } catch (err) {
+        console.error("ファイル削除中にエラーが発生しました:", err);
+    }
 }
 
 
@@ -70,14 +73,16 @@ const sharedGameFormHandle = (req,res,query,successComment,uploadPath) =>{
 
     let gameImagePath = null;  // 画像が送られてきてない場合を考慮
 
-    const oldImagePath = path.basename(req.body.OldImagePath);
-    const deletePath = path.join(uploadPath,oldImagePath);  // 削除するファイルのパスを指定
+const oldImagePath = req.body.OldImagePath ? path.basename(req.body.OldImagePath) : null;
+    const deletePath = oldImagePath ? path.join(uploadPath, oldImagePath) : null; // 削除するファイルのパスを指定
 
     console.log(deletePath);
     if(req.files && req.files.length > 0){
         gameImagePath = req.files[0].filename;   // 画像の名前
 
-        deleteFile(deletePath);  // フォルダ内の古い画像を削除
+        if (req.body.GameId && deletePath && oldImagePath !== "default_image.png") {
+            deleteFile(deletePath);  // フォルダ内の古い画像を削除
+        }
     }
     else if(req.body.OldImagePath){
         gameImagePath = oldImagePath;
