@@ -74,9 +74,11 @@ input[type="text"].error-style {
     border-radius:8px;
     /* background-color: #94d768; */
     box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
-    opacity: 85%;
     /* 穴あけパンチ部分 */
     background-image: radial-gradient(circle at 15px 15px, transparent 6px, #94d768 9px);
+
+    opacity: 0; /* 最初は透明 */
+    animation: slide-in-left 0.8s ease-out forwards;
 }
 
 #DeleteCardWrapper {
@@ -84,17 +86,28 @@ input[type="text"].error-style {
     background-image: radial-gradient(circle at 15px 15px, transparent 6px, rgb(254, 63, 63) 9px);
 }
 
+@keyframes slide-in-left {
+    0% {
+    opacity: 0%;
+    transform: translateX(-50px); /* 左に50pxずらす */
+  }
+  100% {
+    opacity: 85%;
+    transform: translateX(0); /* 元の位置に戻す */
+  }
+}
+
 /* パネルのラベル */
 .edit-label {
     color:#ddffc6;
     font-size: 14px;
-    margin: 25px 0 0 12px;
+    margin: 25px 0 0 17px;
 }
 
 .delete-label {
     color:#fadbd8;
     font-size: 14px;
-    margin: 25px 0 0 12px;
+    margin: 25px 0 0 17px;
 
 }
 
