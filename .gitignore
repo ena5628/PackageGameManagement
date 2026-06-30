@@ -2,6 +2,8 @@
 **/node_modules/
 **/.env
 
+fiveserver.config.js
+
 # Logs
 logs
 *.log
