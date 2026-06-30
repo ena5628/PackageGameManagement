@@ -47,7 +47,12 @@ const inputGameData = (gameData, gameImageUrl) => {
     // // 画面に値を挿入
     const gameImageElement = document.getElementById('GameImage');  // ゲーム画像の要素を取得
 
-    gameImageElement.src = gameImageUrl;  // ゲーム画像のURLを挿入
+    // gameImageElement.src = gameImageUrl;  // ゲーム画像のURLを挿入
+    if (gameData.game_image_path) {
+    GameImage.src = `http://localhost:3000/mainscreen/reload/getBinary/${gameData.game_image_path}`;
+    } else {
+        GameImage.src = "./Image/default_image.png"; // 画像がない場合の予備
+    }
 
     const inputGameData = document.querySelectorAll('input, select, textarea,hidden');  // input, select, textarea, hiddenの要素を取得
     console.log('inputGameData:', inputGameData);
@@ -56,7 +61,7 @@ const inputGameData = (gameData, gameImageUrl) => {
     // ゲームデータをフォームに挿入
     for(let i = 0; i < inputGameData.length; i++){
         if(inputGameData[i].type === 'file' || inputGameData[i].type === 'submit'){
-            continue;  // ファイル入力はスキップ
+            continue;  // ファイル入力、送信ボタンスキップ
         }
 
         inputGameData[i].value = gameDataArr[counter++];  // ゲームデータをフォームに挿入
