@@ -207,6 +207,21 @@ const FetchToFormUpdate = async (formData) =>{
 // データ送信処理
 const SendToData = async (select_mode) =>{
   const GameForm = document.getElementById("GameForm");  // formタグのid
+  const SendSuccess = document.getElementById("SendSuccess");  // 送信完了表示用のdivタグid
+  const CloseBtn = document.getElementById("CloseBtn");  // 送信完了時の閉じるボタン
+  if (GameImage && GameImage.src.startsWith('blob:')) {
+          GameImage.src = ""; 
+  }
+
+  CloseBtn.addEventListener('click',(e) => {
+    e.preventDefault();
+    SendSuccess.classList.remove('is-active');
+
+    sessionStorage.clear();  // sessionStorageのクリア
+
+    window.location.href="./index.html";
+
+  });
 
   GameForm.addEventListener('submit', async (e) => {
       e.preventDefault();  // 送信時にページリロードされないようにする（情報の欠落を防ぐ）
@@ -220,18 +235,18 @@ const SendToData = async (select_mode) =>{
       // オブジェクト形式に変換(使わないけど一応)
       const allData = Object.fromEntries(formData.entries());
 
-      // console.log(allData);
-
       try {
         // 引数（選択されたモード）によってapi呼び出し先を変える
         if(select_mode === 'edit'){
-          const response = await FetchToFormUpdate(formData);  // fetchの呼び出し（レスポンス格納）
+          const response = await FetchToFormUpdate(formData);  // fetchの呼び出し（update）
 
           const status = await response.text();
 
           if(response.ok){
               console.log('接続成功');
               console.log(status);
+              SendSuccess.classList.add('is-active');
+
           }
           else{
               console.log('接続できませんでした');
@@ -239,13 +254,14 @@ const SendToData = async (select_mode) =>{
           }
         }
         else if(select_mode === 'insert'){
-          const response = await FetchToFormInsert(formData);  // fetchの呼び出し（レスポンス格納）
+          const response = await FetchToFormInsert(formData);  // fetchの呼び出し（insert）
 
           const status = await response.text();
 
           if(response.ok){
               console.log('接続成功');
               console.log(status);
+              SendSuccess.classList.add('is-active');
           }
           else{
               console.log('接続できませんでした');
@@ -271,31 +287,31 @@ const SendToData = async (select_mode) =>{
 
 
 
-// フォーム内容をコンソール出力（確認用）
-const GameForm = document.getElementById("GameForm");  // formタグのid
+// // フォーム内容をコンソール出力（確認用）
+// const GameForm = document.getElementById("GameForm");  // formタグのid
 
-GameForm.addEventListener('submit', (e) => {
-  e.preventDefault();  // 送信時にページリロードされないようにする（情報の欠落を防ぐ）
+// GameForm.addEventListener('submit', (e) => {
+//   e.preventDefault();  // 送信時にページリロードされないようにする（情報の欠落を防ぐ）
   
-  // Objectにname属性値を残すため
-  PlayTimeHour.disabled = false;  // プレイ時間の有効化
-  PlayTimeMinute.disabled = false;  // プレイ時間の有効化      
+//   // Objectにname属性値を残すため
+//   PlayTimeHour.disabled = false;  // プレイ時間の有効化
+//   PlayTimeMinute.disabled = false;  // プレイ時間の有効化      
 
-  const formData = new FormData(e.target);
+//   const formData = new FormData(e.target);
 
-  const GameTitle = formData.get('GameTitle');
-  const GameImagePhoto = formData.get('GameImagePhoto');
+//   const GameTitle = formData.get('GameTitle');
+//   const GameImagePhoto = formData.get('GameImagePhoto');
 
-  // console.log(GameTitle);
-  // console.log(GameImagePhoto);
+//   // console.log(GameTitle);
+//   // console.log(GameImagePhoto);
 
-  // オブジェクト形式に変換
-  const allData = Object.fromEntries(formData.entries());
+//   // オブジェクト形式に変換
+//   const allData = Object.fromEntries(formData.entries());
 
-  console.log(formData);  // ログ
+//   console.log(formData);  // ログ
 
-  console.log(allData);
+//   console.log(allData);
   
-});
+// });
 
 
