@@ -8,14 +8,25 @@
 </head>
 <body>
     <button type="button" id="BackButton" onclick="location.href='./index.html'">←</button>
+    <!-- 編集モード用パネル -->
+    <div id="EditCardWrapper">
+        <div id="ModeCardWrapper">
+            <label>モードの切り替え</label>
+            <button id="EditButton" class="edit-button">書き込みモードにする</button>
+        </div>
+        <div id="DeleteCardWrapper">
+            <label>データを削除</label>
+            <button id="DeleteButton" class="delete-button" >Delete</button>
+        </div>
+    </div>
+
     <h1 id="MainText" >新規ゲーム追加フォーム</h1>
-    <button id="EditButton" >〇</button>
     <div id="MainPanel">
         <form id="GameForm"  enctype="multipart/form-data">
             <div class="form-group">
                 <div id="ImageLabelWrapper">
+                    <label class="current-mode-text">MODE：読み取りモード...</label>
                     <label>イメージ画像</label>
-                    <label class="current-mode-text">MODE：読み取りモード</label>
                 </div>
                 <div id="GameImagePhotoWrapper">
                     <img id="GameImage" src="../Image/default_image.png" alt="ゲーム画像" />

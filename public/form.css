@@ -3,6 +3,7 @@
 }
 
 body{
+    position:relative;
     background-color: #e3effc;
 }
 
@@ -51,6 +52,66 @@ input[type="text"].error-style {
 #BackButton:hover {
     transform: scalex(1.4);
     cursor: pointer;
+}
+
+
+/* 編集＆削除ボタンをまとめたカード */
+#EditCardWrapper {
+    position: absolute;  /* 親：body */
+    display: flex;
+    flex-direction: column;
+    right:0px;
+    top: 20px;
+    gap: 20px;
+}
+
+#ModeCardWrapper, #DeleteCardWrapper {
+    width: 300px;
+    height: 130px;
+
+    z-index: 5;
+    border-radius:8px;
+    background-color: #94d768;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    opacity: 85%;
+}
+
+#DeleteCardWrapper {
+    background-color: rgb(254, 63, 63);
+}
+
+/* 共通スタイル */
+.edit-button, .delete-button {
+  display: inline-block;
+  padding: 0.3em 1em;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: .4s;
+  font-weight: bold; /* 文字を見やすくするために追加（お好みで） */
+}
+
+/* --- 編集ボタン (緑のカード用) --- */
+.edit-button {
+  color: #fdf9ba; /* 濃い緑（背景の薄い緑に対して文字を読みやすく） */
+  background: #609939;
+  border: solid 2px #FFFDD0;
+}
+
+.edit-button:hover {
+  background: #1b5e20;
+  color: white;
+}
+
+/* --- 削除ボタン (赤のカード用) --- */
+.delete-button {
+  color: #ffffff; /* 赤背景の上で見やすい白文字 */
+  background-color: rgb(237, 26, 26);
+  border: solid 2px rgb(210, 12, 12);
+}
+
+.delete-button:hover {
+  background: #ffffff;
+  color: rgb(250, 18, 18); /* ホバー時に文字を赤く */
 }
 
 
@@ -109,16 +170,12 @@ input[type="text"] ::placeholder {
     color: #999;
 }
 
-/* 現在のモードを示すラベル */
-#ImageLabelWrapper{
-    display: flex;
-}
 
 .current-mode-text{
-    position: absolute;  /*親要素をもとにする*/
-    right:20px;
-    top:20px;
-    font-size:20px;
+    /* position: absolute;   
+    top:10px; */
+    margin:0 0 20px 0;
+    font-size:20px;/* 親：MainPanel */
     font-weight:lighter;
     color: #67d49a;
     text-shadow: #b0b0b0;
@@ -136,9 +193,9 @@ input[type="text"] ::placeholder {
 
 /* 画像エリア */
 #GameImage{
-    width: 500px;
-    height: 300px;
-    margin:10px 0 0 0;
+    width: 550px;
+    height: 350px;    
+    margin:4px 0 0 0;
     border: 1px solid #ddd;
     border-radius: 6px;
     overflow: hidden;

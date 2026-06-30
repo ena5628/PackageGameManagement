@@ -71,6 +71,23 @@ const EditMode = () =>{
   EditButton.addEventListener('click',(e) =>{
     e.preventDefault();
     MainPanel.classList.toggle('is-readonly');
+    
+    if(CurrentModeLabel.textContent === "MODE：読み取りモード..."){
+      CurrentModeLabel.textContent = "MODE：書き込みモード...";
+      // 2. ボタンの文字を「読み取りモードにする」に変える
+        EditButton.textContent = '読み取りモードにする';
+        
+        // （オプション）文字の色を一時的に変えたい場合はここでCSSを操作できます
+        EditButton.style.color = '#000080'; // 編集は赤系にするなど
+    }
+    else{
+      CurrentModeLabel.textContent = "MODE：読み取りモード...";
+
+      EditButton.textContent = '書き込みモードにする';
+        
+      EditButton.style.color= '#fdf9ba'; /* 濃い緑（背景の薄い緑に対して文字を読みやすく） */
+
+    } 
   });
   
 }
