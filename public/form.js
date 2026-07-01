@@ -333,8 +333,21 @@ const SendToData = async (select_mode) =>{
 // データの削除処理
 const DeleteData = (gameData) =>{
   const DeleteButton = document.getElementById('DeleteButton');  // 削除ボタン
+  const SendSuccess = document.getElementById("SendSuccess");  // 送信完了表示用のdivタグid
+  const CloseBtn = document.getElementById("CloseBtn");  // 送信完了時の閉じるボタン
 
   const alertMessage = `本当にこのデータを削除しますか？\n※削除すると後から復元することができません！！`;
+
+  // 削除完了画面の閉じるボタンの処理
+  CloseBtn.addEventListener('click',(e) => {
+    e.preventDefault();
+    SendSuccess.classList.remove('is-active');
+
+    sessionStorage.clear();  // sessionStorageのクリア
+
+    window.location.href="./index.html";
+
+  });
 
   DeleteButton.addEventListener('click',async(e) =>{
     if(window.confirm(alertMessage)){
@@ -346,11 +359,21 @@ const DeleteData = (gameData) =>{
 
       const response = await fetch(`http://localhost:3000/data/delete/${DeleteId}`);
 
-      if(response.ok){
-        console.log('データを削除しました')
+      const status = await response.text();
+
+      // レスポンスのステータスコードによって処理を分岐
+      if(response.status === 200){
+        console.log('データを削除しました');
+        console.log(status);
+        SendSuccess.classList.add('is-active');
       }
-      else{
+      else if(response.status === 404){
         console.log('削除失敗しました');
+        console.log(status);
+      }
+      else if(response.status === 500){
+        console.log('削除失敗しました');
+        console.log(status);
       }
     }
     else{
