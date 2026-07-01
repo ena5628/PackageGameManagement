@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded',(e) =>{
 
       SendToData('edit');  // 編集処理用のapi呼び出し
 
-      DeleteData();  // データ削除処理用のapi呼び出し
+      DeleteData(gameData);  // データ削除処理用のapi呼び出し
 
     }
     else{
@@ -331,14 +331,27 @@ const SendToData = async (select_mode) =>{
 
 
 // データの削除処理
-const DeleteData = () =>{
+const DeleteData = (gameData) =>{
   const DeleteButton = document.getElementById('DeleteButton');  // 削除ボタン
 
   const alertMessage = `本当にこのデータを削除しますか？\n※削除すると後から復元することができません！！`;
 
-  DeleteButton.addEventListener('click',(e) =>{
+  DeleteButton.addEventListener('click',async(e) =>{
     if(window.confirm(alertMessage)){
       console.log('削除処理を実行します');
+
+      const DeleteId = gameData.game_id;
+
+      console.log('削除するID：' + DeleteId);  // 確認用
+
+      const response = await fetch('http://localhost:3000/data/delete:');
+
+      if(response.ok){
+        console.log('データを削除しました')
+      }
+      else{
+        console.log('削除失敗しました');
+      }
     }
     else{
       console.log('キャンセルされました');
