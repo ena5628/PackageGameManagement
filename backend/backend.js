@@ -73,13 +73,15 @@ const sharedGameFormHandle = (req,res,query,successComment,uploadPath) =>{
 
     let gameImagePath = null;  // 画像が送られてきてない場合を考慮
 
-const oldImagePath = req.body.OldImagePath ? path.basename(req.body.OldImagePath) : null;
+    // 古い画像のパスを取得（古い画像データが渡された場合）
+    const oldImagePath = req.body.OldImagePath ? path.basename(req.body.OldImagePath) : null;
     const deletePath = oldImagePath ? path.join(uploadPath, oldImagePath) : null; // 削除するファイルのパスを指定
 
     console.log(deletePath);
     if(req.files && req.files.length > 0){
         gameImagePath = req.files[0].filename;   // 画像の名前
 
+        // 古い画像が存在し、デフォルト画像でない場合は削除する
         if (req.body.GameId && deletePath && oldImagePath !== "default_image.png") {
             deleteFile(deletePath);  // フォルダ内の古い画像を削除
         }
@@ -129,7 +131,7 @@ app.post('/form/insert', image.any(),(req,res) =>{
                    VALUES (?,?,?,?,?,?,?,?)`;  // プレースホルダでセキュリティ対策
     
     // 共通部分の呼び出し（クエリ実行）
-    sharedGameFormHandle(req,res,insert_query,"登録成功しました",uploadPath);
+    sharedGameFormHandle(req,res,insert_query,"データを登録しました",uploadPath);
 
 });
 
@@ -141,7 +143,7 @@ app.post('/form/update',image.any(),(req,res) =>{
                           WHERE game_id=?`;
 
     // 共通部分の呼び出し（クエリ実行）
-    sharedGameFormHandle(req,res,update_query,"登録成功しました",uploadPath);
+    sharedGameFormHandle(req,res,update_query,"データを更新しました",uploadPath);
 });
 
 

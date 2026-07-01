@@ -296,15 +296,16 @@ const SendToData = async (select_mode) =>{
 
         const status = await response.text();
 
-        if(response.ok){
-            console.log('接続成功');
-            console.log(status);
-            SendSuccess.classList.add('is-active');
-
+        // レスポンスのステータスコードによって処理を分岐
+        if(response.status === 200){
+          console.log('データを更新しました');
+          console.log(status);
+          SuccessMessage.textContent = status;  // 更新完了メッセージを表示
+          SendSuccess.classList.add('is-active');
         }
-        else{
-            console.log('接続できませんでした');
-            console.log(status);
+        else if(response.status === 500){  // データベースエラーの場合
+          console.log('データベースエラーが発生しました');
+          console.log(status);
         }
       }
       else if(select_mode === 'insert'){
@@ -312,14 +313,16 @@ const SendToData = async (select_mode) =>{
 
         const status = await response.text();
 
-        if(response.ok){
-            console.log('接続成功');
-            console.log(status);
-            SendSuccess.classList.add('is-active');
+        // レスポンスのステータスコードによって処理を分岐
+        if(response.status === 200){
+          console.log('データを登録しました');
+          console.log(status);
+          SuccessMessage.textContent = status;  // 登録完了メッセージを表示
+          SendSuccess.classList.add('is-active');
         }
-        else{
-            console.log('接続できませんでした');
-            console.log(status);
+        else if(response.status === 500){  // データベースエラーの場合
+          console.log('データベースエラーが発生しました');
+          console.log(status);
         }
       }
       
@@ -372,12 +375,12 @@ const DeleteData = (gameData) =>{
         SuccessMessage.textContent = status;  // 削除完了メッセージを表示
         SendSuccess.classList.add('is-active');
       }
-      else if(response.status === 404){
-        console.log('削除失敗しました');
+      else if(response.status === 404){  // 削除対象のデータが見つからなかった場合
+        console.log('削除対象のデータが見つかりませんでした');
         console.log(status);
       }
-      else if(response.status === 500){
-        console.log('削除失敗しました');
+      else if(response.status === 500){  // データベースエラーの場合
+        console.log('データベースエラーが発生しました');
         console.log(status);
       }
     }
