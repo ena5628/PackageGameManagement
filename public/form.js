@@ -344,7 +344,7 @@ const DeleteData = (gameData) =>{
 
       console.log('削除するID：' + DeleteId);  // 確認用
 
-      const response = await fetch('http://localhost:3000/data/delete:');
+      const response = await fetch(`http://localhost:3000/data/delete/${DeleteId}`);
 
       if(response.ok){
         console.log('データを削除しました')
