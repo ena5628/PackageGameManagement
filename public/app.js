@@ -17,7 +17,7 @@ CreateGameCard.addEventListener('click',(e) =>{
 const getByJsonData = async(response) =>{
     if(response.ok){
         console.log('JSON取得成功');
-        const gameDataArray = await response.json(); // JSON形式の値を自動的にオブジェクトに変換
+        const gameDataArray = await response.json(); // JSON形式の値を自動的に配列オブジェクトに変換
         console.log(gameDataArray); 
 
         return gameDataArray;  // オブジェクトのデータを返す
@@ -170,7 +170,7 @@ const EditGameCard = async() =>{
                 
                 const responseJSON = await fetch(`http://localhost:3000/mainscreen/editCard/getJson/${gameID}`);  // IDをもとにデータベースからデータを取得
 
-                const gameData = await getByJsonData(responseJSON);  // JSONデータをオブジェクトで取得
+                const gameData = await getByJsonData(responseJSON);  // JSONデータをオブジェクトで取得（gameDataは配列として返る）
 
                 const gameImagePath = gameData[0].game_image_path;  // 画像パスを取得
 
@@ -183,7 +183,7 @@ const EditGameCard = async() =>{
                 console.log(url[0]);
             
                 // 取得したデータをsessionoStorageに保存
-                sessionStorage.setItem('gameData',JSON.stringify(gameData[0]));
+                sessionStorage.setItem('gameData',JSON.stringify(gameData[0]));  
                 sessionStorage.setItem('gameImageUrl',url[0]);  // 画像のURLをsessionStorageに保存
             
                 window.location.href = `./form.html`;  // 編集画面に遷移     
