@@ -191,4 +191,55 @@ app.get('/mainscreen/editCard/getJson/:gameID',(req,res) => {
     });
 });
 
+
+// データベースからデータを削除（特定ID）
+app.get('/data/delete/:gameId',(req,res) =>{
+    const gameId = req.params.gameId;  // URLパラメータからgameIdを取得
+
+    console.log('削除するID：' + gameId);  // 確認用
+
+    // 削除するデータの画像パスを取得
+    const select_query = 'select game_image_path from package_game where game_id = ?';  // プレースホルダでセキュリティ対策
+
+    // クエリ実行
+    connection.query(select_query,gameId,(err,result) =>{
+        if(err){
+            console.error(err);
+            return res.status(500).send('DBエラー:' + err);
+        }
+
+        // データが存在しない場合の処理
+        if (!result || result.length === 0) {
+            return res.status(404).send('削除対象のデータが見つかりませんでした');
+        }
+
+        const imagePath = result[0].game_image_path;  // 画像パスを取得
+        
+        // 画像パスが存在し、デフォルト画像でない場合
+        if(imagePath && imagePath !== "default_image.png"){ 
+            const deletePath = path.join(uploadPath, imagePath);  // 削除するファイルのパスを指定
+
+            deleteFile(deletePath);  // サーバー側のフォルダから画像データを削除する処理を呼び出す 
+        } 
+
+
+        // 削除するデータのクエリ
+        const delete_query = `DELETE FROM package_game WHERE game_id = ?`;
+
+        // クエリ実行
+        connection.query(delete_query,gameId,(err,result) =>{
+            if(err){
+                console.error(err);
+                return res.status(500).send('DBエラー:' + err);
+            }
+
+            console.log('削除成功');
+            res.status(200).send('削除成功');
+        });
+
+    });
+
+
+});
+
 app.listen(3000);  // ポートの受付
