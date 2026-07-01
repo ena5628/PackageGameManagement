@@ -39,6 +39,7 @@ connection.connect((err) =>{
     console.log('success');  // 接続成功
 });
 
+
 // 古い画像をフォルダから削除する処理
 const deleteFile = (deletepath) => {
     try {
@@ -52,10 +53,30 @@ const deleteFile = (deletepath) => {
     }
 }
 
+// 画像更新、削除時にデータが他の行にも存在するか確認する処理
+const checkOtherData = (ImagePath, GameId =null) => {
+    return new Promise((resolve, reject) => {
+        const select_query = 'select COUNT(*) as count from package_game where game_image_path = ?';  // プレースホルダでセキュリティ対策
+
+        connection.query(select_query,ImagePath,(err,result) =>{
+            if(err){
+                console.error(err);
+                reject(err);
+            }
+            
+            let count = result[0].count;  // データの件数を取得
+            if(GameId){
+                count--;  // 更新する行の件数を除外
+            }
+            console.log('同じ画像パスの件数：' + count);
+            resolve(count);  // 同じ画像パスの件数を返す
+        });
+    });
+}
 
 
 // insert,update共通部分
-const sharedGameFormHandle = (req,res,query,successComment,uploadPath) =>{
+const sharedGameFormHandle = async (req,res,query,successComment,uploadPath) =>{
     
     // console.log(uploadPath);
     // リクエストで受け取った値たち
@@ -73,15 +94,22 @@ const sharedGameFormHandle = (req,res,query,successComment,uploadPath) =>{
 
     let gameImagePath = null;  // 画像が送られてきてない場合を考慮
 
-const oldImagePath = req.body.OldImagePath ? path.basename(req.body.OldImagePath) : null;
+    // 古い画像のパスを取得（古い画像データが渡された場合）
+    const oldImagePath = req.body.OldImagePath ? path.basename(req.body.OldImagePath) : null;
     const deletePath = oldImagePath ? path.join(uploadPath, oldImagePath) : null; // 削除するファイルのパスを指定
+
+    console.log('古い画像パス：' + oldImagePath);
 
     console.log(deletePath);
     if(req.files && req.files.length > 0){
         gameImagePath = req.files[0].filename;   // 画像の名前
 
+        // 古い画像が存在し、デフォルト画像でない場合は削除する
         if (req.body.GameId && deletePath && oldImagePath !== "default_image.png") {
-            deleteFile(deletePath);  // フォルダ内の古い画像を削除
+            let count = await checkOtherData(oldImagePath,req.body.GameId);  // 他の行に同じ画像パスが存在するか確認
+            if(count === 0 && deletePath){
+                deleteFile(deletePath);  // サーバー側のフォルダから画像データを削除する処理を呼び出す
+            }
         }
     }
     else if(req.body.OldImagePath){
@@ -129,7 +157,7 @@ app.post('/form/insert', image.any(),(req,res) =>{
                    VALUES (?,?,?,?,?,?,?,?)`;  // プレースホルダでセキュリティ対策
     
     // 共通部分の呼び出し（クエリ実行）
-    sharedGameFormHandle(req,res,insert_query,"登録成功しました",uploadPath);
+    sharedGameFormHandle(req,res,insert_query,"データを登録しました",uploadPath);
 
 });
 
@@ -141,7 +169,7 @@ app.post('/form/update',image.any(),(req,res) =>{
                           WHERE game_id=?`;
 
     // 共通部分の呼び出し（クエリ実行）
-    sharedGameFormHandle(req,res,update_query,"登録成功しました",uploadPath);
+    sharedGameFormHandle(req,res,update_query,"データを更新しました",uploadPath);
 });
 
 
@@ -189,6 +217,60 @@ app.get('/mainscreen/editCard/getJson/:gameID',(req,res) => {
         console.log(result);
         res.json(result);  // JSON形式で返す
     });
+});
+
+
+// データベースからデータを削除（特定ID）
+app.get('/data/delete/:gameId',(req,res) =>{
+    const gameId = req.params.gameId;  // URLパラメータからgameIdを取得
+
+    console.log('削除するID：' + gameId);  // 確認用
+
+    // 削除するデータの画像パスを取得
+    const select_query = 'select game_image_path from package_game where game_id = ?';  // プレースホルダでセキュリティ対策
+
+    // クエリ実行
+    connection.query(select_query,gameId,(err,result) =>{
+        if(err){
+            console.error(err);
+            return res.status(500).send('DBエラー:' + err);
+        }
+
+        // データが存在しない場合の処理
+        if (!result || result.length === 0) {
+            return res.status(404).send('削除対象のデータが見つかりませんでした');
+        }
+
+        const imagePath = result[0].game_image_path;  // 画像パスを取得
+        
+        let deletePath = null;
+        // 画像パスが存在し、デフォルト画像でない場合
+        if(imagePath && imagePath !== "default_image.png"){ 
+            deletePath = path.join(uploadPath, imagePath);  // 削除するファイルのパスを指定
+        } 
+
+
+        // 削除するデータのクエリ
+        const delete_query = `DELETE FROM package_game WHERE game_id = ?`;
+
+        // クエリ実行
+        connection.query(delete_query,gameId,async(err,result) =>{
+            if(err){
+                console.error(err);
+                return res.status(500).send('DBエラー:' + err);
+            }
+
+            console.log('削除成功');
+            let count = await checkOtherData(imagePath);  // 他の行に同じ画像パスが存在するか確認
+            if(count === 0 && deletePath){
+                await deleteFile(deletePath);  // サーバー側のフォルダから画像データを削除する処理を呼び出す
+            }
+            res.status(200).send('データを削除しました');
+        });
+
+    });
+
+
 });
 
 app.listen(3000);  // ポートの受付

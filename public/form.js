@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded',(e) =>{
 
       SendToData('edit');  // 編集処理用のapi呼び出し
 
+      DeleteData(gameData);  // データ削除処理用のapi呼び出し
+
     }
     else{
       console.log('新規登録モードで起動しました');
@@ -74,17 +76,18 @@ const EditMode = () =>{
   // クリック時のイベント
   EditButton.addEventListener('click',(e) =>{
     e.preventDefault();
-    MainPanel.classList.toggle('is-readonly');
+    MainPanel.classList.toggle('is-readonly');  // 読み取り＆書き込みの切り替え
     
+    // ラベル、ボタンの値変更処理
     if(CurrentModeLabel.textContent === "MODE：読み取りモード..."){
       SubmitButton.style.display = 'block';
       CurrentModeLabel.textContent = "MODE：書き込みモード...";
       CurrentModeLabel.style.color = "#D93A49";
-      // 2. ボタンの文字を「読み取りモードにする」に変える
+
         EditButton.textContent = '読み取りモードにする';
         
-        // （オプション）文字の色を一時的に変えたい場合はここでCSSを操作できます
-        EditButton.style.color = '#000080'; // 編集は赤系にするなど
+        // ボタンの文字色を変更
+        EditButton.style.color = '#000080'; 
     }
     else{
       SubmitButton.style.display = 'none';
@@ -93,8 +96,7 @@ const EditMode = () =>{
 
       EditButton.textContent = '書き込みモードにする';
         
-      EditButton.style.color= '#fdf9ba'; /* 濃い緑（背景の薄い緑に対して文字を読みやすく） */
-
+      EditButton.style.color= '#fdf9ba'; 
     } 
   });
   
@@ -116,7 +118,7 @@ const imagePhotoChange = () =>{
       GameImage.src = imageURL;  // imgタグに挿入
     }
     else{
-      console.log(file);
+      console.log('選択されたファイルが見つかりませんでした：' + file);
     }
   });
 
@@ -235,8 +237,8 @@ const FetchToFormUpdate = async (formData) =>{
 
   const oldImagePath = sessionGameData ? sessionGameData.game_image_path : null;
   
-  console.log(gameId);
-  console.log(oldImagePath);
+  console.log('更新、削除するゲームID：' + gameId);
+  console.log('古い画像パス：' + oldImagePath);
 
   // formDataだけをオブジェクトとして送りたいのでappendで追加
   if (gameId) {
@@ -257,6 +259,9 @@ const SendToData = async (select_mode) =>{
   const GameForm = document.getElementById("GameForm");  // formタグのid
   const SendSuccess = document.getElementById("SendSuccess");  // 送信完了表示用のdivタグid
   const CloseBtn = document.getElementById("CloseBtn");  // 送信完了時の閉じるボタン
+  const SuccessMessage = document.querySelector('.success-message');  // 完了時画面のメッセージ
+
+
   if (GameImage && GameImage.src.startsWith('blob:')) {
           GameImage.src = ""; 
   }
@@ -271,67 +276,121 @@ const SendToData = async (select_mode) =>{
 
   });
 
+  // 送信ボタンの処理（更新・登録）
   GameForm.addEventListener('submit', async (e) => {
-      e.preventDefault();  // 送信時にページリロードされないようにする（情報の欠落を防ぐ）
-      
-      // Objectにname属性値を残すため
-      PlayTimeHour.disabled = false;  // プレイ時間の有効化
-      PlayTimeMinute.disabled = false;  // プレイ時間の有効化      
+    e.preventDefault();  // 送信時にページリロードされないようにする（情報の欠落を防ぐ）
+    
+    // Objectにname属性値を残すため
+    PlayTimeHour.disabled = false;  // プレイ時間の有効化
+    PlayTimeMinute.disabled = false;  // プレイ時間の有効化      
 
-      const formData = new FormData(e.target);  // formデータをそのまま保持（ファイル対応）
+    const formData = new FormData(e.target);  // formデータをそのまま保持（ファイル対応）
 
-      // オブジェクト形式に変換(使わないけど一応)
-      const allData = Object.fromEntries(formData.entries());
+    // オブジェクト形式に変換(使わないけど一応)
+    const allData = Object.fromEntries(formData.entries());
 
-      try {
-        // 引数（選択されたモード）によってapi呼び出し先を変える
-        if(select_mode === 'edit'){
-          const response = await FetchToFormUpdate(formData);  // fetchの呼び出し（update）
+    try {
+      // 引数（選択されたモード）によってapi呼び出し先を変える
+      if(select_mode === 'edit'){
+        const response = await FetchToFormUpdate(formData);  // fetchの呼び出し（update）
 
-          const status = await response.text();
+        const status = await response.text();
 
-          if(response.ok){
-              console.log('接続成功');
-              console.log(status);
-              SendSuccess.classList.add('is-active');
-
-          }
-          else{
-              console.log('接続できませんでした');
-              console.log(status);
-          }
+        // レスポンスのステータスコードによって処理を分岐
+        if(response.status === 200){
+          console.log('データを更新しました');
+          console.log(status);
+          SuccessMessage.textContent = status;  // 更新完了メッセージを表示
+          SendSuccess.classList.add('is-active');
         }
-        else if(select_mode === 'insert'){
-          const response = await FetchToFormInsert(formData);  // fetchの呼び出し（insert）
-
-          const status = await response.text();
-
-          if(response.ok){
-              console.log('接続成功');
-              console.log(status);
-              SendSuccess.classList.add('is-active');
-          }
-          else{
-              console.log('接続できませんでした');
-              console.log(status);
-          }
+        else if(response.status === 500){  // データベースエラーの場合
+          console.log('データベースエラーが発生しました');
+          console.log(status);
         }
-        
-
-
       }
-      catch(error){
-        console.error("接続失敗：" + error);
+      else if(select_mode === 'insert'){
+        const response = await FetchToFormInsert(formData);  // fetchの呼び出し（insert）
+
+        const status = await response.text();
+
+        // レスポンスのステータスコードによって処理を分岐
+        if(response.status === 200){
+          console.log('データを登録しました');
+          console.log(status);
+          SuccessMessage.textContent = status;  // 登録完了メッセージを表示
+          SendSuccess.classList.add('is-active');
+        }
+        else if(response.status === 500){  // データベースエラーの場合
+          console.log('データベースエラーが発生しました');
+          console.log(status);
+        }
       }
-
-
       
-    });
+    }
+    catch(error){
+      console.error("接続失敗：" + error);
+    }
+    
+  });
 
 };
 
 
+// データの削除処理
+const DeleteData = (gameData) =>{
+  const DeleteButton = document.getElementById('DeleteButton');  // 削除ボタン
+  const SendSuccess = document.getElementById("SendSuccess");  // 送信完了表示用のdivタグid
+  const CloseBtn = document.getElementById("CloseBtn");  // 送信完了時の閉じるボタン
+  const SuccessMessage = document.querySelector('.success-message');  // 完了時画面のメッセージ
 
+  const alertMessage = `本当にこのデータを削除しますか？\n※削除すると後から復元することができません！！`;
+
+  // 削除完了画面の閉じるボタンの処理
+  CloseBtn.addEventListener('click',(e) => {
+    e.preventDefault();
+    SendSuccess.classList.remove('is-active');
+
+    sessionStorage.clear();  // sessionStorageのクリア
+
+    window.location.href="./index.html";
+
+  });
+
+  DeleteButton.addEventListener('click',async(e) =>{
+    if(window.confirm(alertMessage)){
+      console.log('削除処理を実行します');
+
+      const DeleteId = gameData.game_id;
+
+      console.log('削除するID：' + DeleteId);  // 確認用
+
+      const response = await fetch(`http://localhost:3000/data/delete/${DeleteId}`);
+
+      const status = await response.text();
+
+      // レスポンスのステータスコードによって処理を分岐
+      if(response.status === 200){
+        console.log('データを削除しました');
+        console.log(status);
+        SuccessMessage.textContent = status;  // 削除完了メッセージを表示
+        SendSuccess.classList.add('is-active');
+      }
+      else if(response.status === 404){  // 削除対象のデータが見つからなかった場合
+        console.log('削除対象のデータが見つかりませんでした');
+        console.log(status);
+      }
+      else if(response.status === 500){  // データベースエラーの場合
+        console.log('データベースエラーが発生しました');
+        console.log(status);
+      }
+    }
+    else{
+      console.log('キャンセルされました');
+    }
+
+
+  });
+}
 
 
 

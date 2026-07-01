@@ -17,8 +17,8 @@ CreateGameCard.addEventListener('click',(e) =>{
 const getByJsonData = async(response) =>{
     if(response.ok){
         console.log('JSON取得成功');
-        const gameDataArray = await response.json(); // JSON形式の値を自動的にオブジェクトに変換
-        console.log(gameDataArray); 
+        const gameDataArray = await response.json(); // JSON形式の値を自動的に配列オブジェクトに変換
+        console.log('JSON取得した値：' + gameDataArray); 
 
         return gameDataArray;  // オブジェクトのデータを返す
     }
@@ -29,7 +29,7 @@ const getByJsonData = async(response) =>{
 
 // バイナリデータを受け取る処理
 const getByBinaryData = async(response) => {
-    console.log('関数に渡されたもの：',response);
+    console.log('渡された値（バイナリデータ）：',response);
     const url = [];  // URLを生成
 
     // responseが配列かどうかを判定
@@ -75,7 +75,7 @@ const responseJson = await fetch('http://localhost:3000/mainscreen/reload/getJso
             gameImagePathArr.push(GameDataArray[i].game_image_path); 
         }
 
-        console.log(gameImagePathArr);
+        console.log('画像パスの文字列配列：' + gameImagePathArr);
 
         // fetchを一斉に走らせてそのPromiseをmapに格納(mapでループさせることにより結果を返す)
         const fetchPromise = gameImagePathArr.map((imagepath) =>{
@@ -87,10 +87,10 @@ const responseJson = await fetch('http://localhost:3000/mainscreen/reload/getJso
         const resposeBinary =  await Promise.all(fetchPromise);
 
         // ここでできるresponseBinaryは複数のfetchを実行したので配列となる
-        console.log(resposeBinary)
+        console.log('api呼び出しで返ってきたバイナリデータ：' + resposeBinary)
         const url = await getByBinaryData(resposeBinary);  // url取得
 
-        console.log(url);
+        console.log('取得した画像URL：' + url);
 
         return {GameDataArray,url};  // 取得したデータを返す
 
@@ -155,7 +155,7 @@ const ScreenReload = async() =>{
 const EditGameCard = async() =>{
     const editButton = document.querySelectorAll(`.card-blog-a`);  // GameCardクラスの要素を取得
 
-    console.log(editButton);
+    // console.log(editButton);
     editButton.forEach(cardElement =>{
         cardElement.addEventListener('click',async(e) =>{
         
@@ -166,11 +166,11 @@ const EditGameCard = async() =>{
             if(ClickedElement){
                 const gameID = ClickedElement.dataset.gameId;  // クリックした要素のdata-game-id属性を取得
 
-                console.log(gameID);  // クリックした要素のIDを確認
+                console.log('クリックした要素のゲームID：' + gameID);  // クリックした要素のIDを確認
                 
                 const responseJSON = await fetch(`http://localhost:3000/mainscreen/editCard/getJson/${gameID}`);  // IDをもとにデータベースからデータを取得
 
-                const gameData = await getByJsonData(responseJSON);  // JSONデータをオブジェクトで取得
+                const gameData = await getByJsonData(responseJSON);  // JSONデータをオブジェクトで取得（gameDataは配列として返る）
 
                 const gameImagePath = gameData[0].game_image_path;  // 画像パスを取得
 
@@ -180,10 +180,10 @@ const EditGameCard = async() =>{
 
                 const url = await getByBinaryData(responseBinary);  // 画像のURLを取得
 
-                console.log(url[0]);
+                console.log('クリックしたした画像URL：' + url[0]);
             
                 // 取得したデータをsessionoStorageに保存
-                sessionStorage.setItem('gameData',JSON.stringify(gameData[0]));
+                sessionStorage.setItem('gameData',JSON.stringify(gameData[0]));  
                 sessionStorage.setItem('gameImageUrl',url[0]);  // 画像のURLをsessionStorageに保存
             
                 window.location.href = `./form.html`;  // 編集画面に遷移     
