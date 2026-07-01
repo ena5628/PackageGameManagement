@@ -54,8 +54,9 @@ const inputGameData = (gameData) => {
         GameImage.src = "./Image/default_image.png"; // 画像がない場合の予備
     }
 
+    // フォームの入力要素を取得
     const inputGameDataValues = document.querySelectorAll('input, select, textarea,hidden');  // input, select, textarea, hiddenの要素を取得
-    console.log('inputGameDataValues:', inputGameDataValues);
+    // console.log('inputGameDataValues:', inputGameDataValues);
 
     let counter = 0;  // カウンターを初期化
     // ゲームデータをフォームに挿入

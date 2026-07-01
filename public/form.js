@@ -118,7 +118,7 @@ const imagePhotoChange = () =>{
       GameImage.src = imageURL;  // imgタグに挿入
     }
     else{
-      console.log(file);
+      console.log('選択されたファイルが見つかりませんでした：' + file);
     }
   });
 
@@ -237,8 +237,8 @@ const FetchToFormUpdate = async (formData) =>{
 
   const oldImagePath = sessionGameData ? sessionGameData.game_image_path : null;
   
-  console.log(gameId);
-  console.log(oldImagePath);
+  console.log('更新、削除するゲームID：' + gameId);
+  console.log('古い画像パス：' + oldImagePath);
 
   // formDataだけをオブジェクトとして送りたいのでappendで追加
   if (gameId) {
