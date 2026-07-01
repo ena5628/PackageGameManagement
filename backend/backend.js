@@ -234,7 +234,7 @@ app.get('/data/delete/:gameId',(req,res) =>{
             }
 
             console.log('削除成功');
-            res.status(200).send('削除成功');
+            res.status(200).send('データを削除しました');
         });
 
     });

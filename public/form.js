@@ -259,6 +259,9 @@ const SendToData = async (select_mode) =>{
   const GameForm = document.getElementById("GameForm");  // formタグのid
   const SendSuccess = document.getElementById("SendSuccess");  // 送信完了表示用のdivタグid
   const CloseBtn = document.getElementById("CloseBtn");  // 送信完了時の閉じるボタン
+  const SuccessMessage = document.querySelector('.success-message');  // 完了時画面のメッセージ
+
+
   if (GameImage && GameImage.src.startsWith('blob:')) {
           GameImage.src = ""; 
   }
@@ -335,6 +338,7 @@ const DeleteData = (gameData) =>{
   const DeleteButton = document.getElementById('DeleteButton');  // 削除ボタン
   const SendSuccess = document.getElementById("SendSuccess");  // 送信完了表示用のdivタグid
   const CloseBtn = document.getElementById("CloseBtn");  // 送信完了時の閉じるボタン
+  const SuccessMessage = document.querySelector('.success-message');  // 完了時画面のメッセージ
 
   const alertMessage = `本当にこのデータを削除しますか？\n※削除すると後から復元することができません！！`;
 
@@ -365,6 +369,7 @@ const DeleteData = (gameData) =>{
       if(response.status === 200){
         console.log('データを削除しました');
         console.log(status);
+        SuccessMessage.textContent = status;  // 削除完了メッセージを表示
         SendSuccess.classList.add('is-active');
       }
       else if(response.status === 404){
