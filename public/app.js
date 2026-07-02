@@ -98,7 +98,7 @@ const responseJson = await fetch('http://localhost:3000/mainscreen/reload/getJso
 
 
 // html部分の作成（ゲームカード）
-const CreatePanel = (values,url) =>{
+const CreatePanel = (values,url,index) =>{
     const GameCard = document.querySelector('.GameCard');
 
     // 購入日の形式を直す
@@ -110,8 +110,9 @@ const CreatePanel = (values,url) =>{
     // const minutes = values.play_time_minutes % 60;
     // const time = `${hour}時間 ${minutes}分`;
 
-    const htmlText =  `
-    <div class="card-blog-a" data-game-id="${values.game_id}">
+    // css変数にorderを指定することで、アニメーションの遅延を制御
+    const htmlText =  `                                      
+    <div class="card-blog-a" data-game-id="${values.game_id} "style="--order: ${index + 1};">  
         <img src="${url}" alt="記事画像">
             <div class="card-blog-content">
                 <p >ゲームタイトル</p>
@@ -121,6 +122,7 @@ const CreatePanel = (values,url) =>{
             </div>
     </div>
     `;
+
 
     //     <p class="play-date">購入日：${formatDate}</p>
     // <p class="play-status">進捗状況：${values.play_status}</p>
@@ -140,7 +142,7 @@ const ScreenReload = async() =>{
 
         // GamePanelの作成（受け取ったデータの数に合わせて）
         for(let i = 0; i < responseData.GameDataArray.length; i++){
-            CreatePanel(responseData.GameDataArray[i],responseData.url[i]);
+            CreatePanel(responseData.GameDataArray[i],responseData.url[i],i);
         }
 
         // const resposeBinary = await fetch('http://localhost:3000/mainscreen/reload/getBinary');
