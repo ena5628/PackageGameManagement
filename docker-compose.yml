@@ -1,0 +1,31 @@
+service:
+  #バックエンド
+  backend:
+    build: ./
+    #.envファイルの読み込み
+    env_file:
+      - .env
+    # MYSQLが起動するまで待機
+    depends_on:
+      - db
+    # 開発用コードと同期
+    volumes:
+      - ./backend:/app
+
+  # データベース
+  db:
+    image: mysql:8.0
+    #.envファイルの読み込み
+    env_file:
+      - .env
+    # MYSQLデータの永続化
+    volumes:
+       - mysql_data:/var/lib/mysql
+       # 初期化用SQL実行
+       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+      
+# 永続化ボリュームを定義
+volumes:
+  mysql_data:
