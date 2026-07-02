@@ -1,0 +1,200 @@
+:root {
+    --font-primary: 'Noto Sans JP', sans-serif;
+    --font-size-base: 16px;
+    --font-weight-regular: 400;
+    --line-height-loose: 1.6;
+    --color-text-dark: #333;
+    --color-bg-white: #ffffff;
+}
+
+body {
+    /* 1. 背景のベースカラー（薄いブルー） */
+    background-color: #effff5;
+
+    /* 2. 背景に格子模様を重ねる */
+    background-image: 
+        linear-gradient(to right, #e7e7e7 1px, transparent 1px),
+        linear-gradient(to bottom, #e7e7e7 1px, transparent 1px);
+
+    /* 3. 格子のサイズ（これを調整して好みの細かさに） */
+    background-size: 56px 56px; 
+
+    margin: 0;
+    min-height: 100vh; /* 画面いっぱいに表示 */
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.header{
+    display:flex;
+    flex-direction: column;
+    position:sticky;
+    top:0;
+    left:0;
+    background-color: rgba(189, 218, 243,0.7);
+    font-size: 20px;
+    color:whitesmoke;
+    font-weight: bold;
+    width:100%;
+    padding:0;
+    backdrop-filter: blur(50px);  /* headerと重なった際 */
+    z-index: 1000; /* ほかのコンテンツの下に隠れないように */
+
+}
+
+.headerTitle{
+    padding:7px 0;
+    text-align: center;
+    text-shadow: 2px 1px 2px black;
+}
+
+.PackageGameKinds
+ {
+    left: 0;
+    border: 1.5px solid rgb(212, 235, 254);
+    padding: 10px 0;
+    background-color:  rgba(235, 245, 253,0.8);
+}
+
+.PackageGameNav{
+    width:100%;
+}
+
+.Nav-inner{
+    display:flex;
+    width:100%;
+    justify-content: space-around;
+    list-style: none;
+    padding: 10px 0;
+    margin:0;
+}
+
+.Nav_item{
+    flex:1;    
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+    color: #303030;
+    text-shadow: 0.5px 1px 1px #333333;
+}
+
+.Nav_item span{
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.Nav_item span:hover{
+    opacity: .6;
+    cursor:pointer;
+    transform:scale(1.12);
+}
+
+.borderLineRight{
+    border-right:2px solid rgb(54, 54, 54);
+}
+
+/* 新規ゲーム追加パネル */
+
+/* ゲームカード */
+.GameCard{
+    display: flex;
+    flex-wrap:wrap;
+    gap:35px;
+    padding: 20px 35px;
+}
+
+.card-blog-a {
+    width: 270px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #fff9e4;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    box-shadow: 8px 8px 16px #bebebe, 
+             -8px -8px 16px #ffffff;
+    /* アニメーションの適用 */
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: calc(var(--order) * 0.4s);
+}
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.card-blog-a:hover {
+ transform: translateY(-6px);
+ box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* ゲームカードの各デザイン */
+.card-blog-a img {
+ width: 100%;
+ height:210px;
+ display: block;
+ transition: transform 0.4s ease;
+}
+.card-blog-a:hover img {
+ transform: scale(1.05);
+}
+.card-blog-content {
+ padding: 14px;
+}
+.card-blog-content .card-title {
+ font-size: 1.1rem;
+ margin: 0 0 6px 0;
+ color: #4885c6;
+
+ white-space: nowrap;     /* 文字を改行させない */
+ overflow: hidden;        /* 枠からはみ出た部分を隠す */
+ text-overflow: ellipsis; /* はみ出た末尾を「…」にする */
+}
+.card-blog-content .game-title {
+ font-size: 1.1rem;
+ margin: 0 0 6px 0;
+ color: #4885c6;
+ white-space: nowrap;     /* 文字を改行させない */
+ overflow: hidden;        /* 枠からはみ出た部分を隠す */
+ text-overflow: ellipsis; /* はみ出た末尾を「…」にする */
+}
+.card-blog-content .platform {
+ font-size: 0.95rem;
+ color: #2ebc9d;
+ /* line-height: 1.4; */
+}.card-blog-content .play-date {
+ font-size: 0.95rem;
+ color: #666;
+ /* line-height: 1.4; */
+}.card-blog-content .play-status {
+ font-size: 0.95rem;
+ color: #666;
+ /* line-height: 1.4; */
+}.card-blog-content .play-time-minutes {
+ font-size: 0.95rem;
+ color: #666;
+ line-height: 1.4;
+}.card-blog-content .review {
+ font-size: 0.95rem;
+ color: #666;
+ line-height: 1.4;
+ white-space: nowrap;     /* 文字を改行させない */
+ overflow: hidden;        /* 枠からはみ出た部分を隠す */
+ text-overflow: ellipsis; /* はみ出た末尾を「…」にする */
+}
+.card-blog-content .star_level {
+ font-size: 0.95rem;
+ color: #666;
+ line-height: 1.4;
+}

@@ -1,0 +1,513 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    position:relative;
+    background-color: #e3effc;
+}
+
+
+.RequiredSymbol {
+    color: red;
+    margin-left: 4px;
+    font-weight:bold;
+}
+
+/* エラー時のデザイン */
+input[type="text"].error-style {
+    border-color: #e74c3c;      
+    background-color: #fdf2f2;
+    
+}
+
+/* 読み取り専用時のデザイン */
+.is-readonly {
+    /* マウス操作を完全に無効化する */
+    pointer-events: none;
+    
+    /* 見た目も読み取り専用っぽくグレーアウトする */
+    background-color: #e0e0e0;
+    color: #888888;
+    border-color: #cccccc;
+}
+
+
+/* 画面遷移ボタンのデザイン */
+#BackButton {
+    position:relative;
+    left: 10px;
+    width: 90px;
+    height:40px;
+    margin: 0 auto;
+    padding: 0;
+    border: 1px solid #2589d0;
+    border-radius: 25px;
+    background-color: #fff;
+    color: #2589d0;
+    font-size: 1rem;
+
+    transition: transform 0.3s;
+}
+
+#BackButton:hover {
+    transform: scalex(1.4);
+    cursor: pointer;
+}
+
+
+/* 編集＆削除ボタンをまとめたカード */
+#EditCardWrapper {
+    display: none;
+    position: absolute;  /* 親：body */
+    flex-direction: column;
+    z-index: 5;
+    right:0px;
+    top: 20px;
+    gap: 20px;
+}
+
+#ModeCardWrapper, #DeleteCardWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 110px;
+    border-radius:8px;
+    /* background-color: #94d768; */
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    /* 穴あけパンチ部分 */
+    background-image: radial-gradient(circle at 15px 15px, transparent 6px, #94d768 9px);
+
+    opacity: 0; /* 最初は透明 */
+    animation: slide-in-left 0.8s ease-out forwards;
+}
+
+#DeleteCardWrapper {
+    /* background-color: rgb(254, 63, 63); */
+    background-image: radial-gradient(circle at 15px 15px, transparent 6px, rgb(254, 63, 63) 9px);
+}
+
+@keyframes slide-in-left {
+    0% {
+    opacity: 0%;
+    transform: translateX(-50px); /* 左に50pxずらす */
+  }
+  100% {
+    opacity: 85%;
+    transform: translateX(0); /* 元の位置に戻す */
+  }
+}
+
+/* パネルのラベル */
+.edit-label {
+    color:#ddffc6;
+    font-size: 14px;
+    margin: 25px 0 0 17px;
+}
+
+.delete-label {
+    color:#fadbd8;
+    font-size: 14px;
+    margin: 25px 0 0 17px;
+
+}
+
+/* 共通スタイル */
+.edit-button, .delete-button {
+  display: inline-block;
+  width: 70%;
+  height:35%;
+  padding: 0.3em 1em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: .4s;
+  font-weight: bold; /* 文字を見やすくするために追加（お好みで） */
+}
+
+/* --- 編集ボタン (緑のカード用) --- */
+.edit-button {
+  color: #fdf9ba; /* 濃い緑（背景の薄い緑に対して文字を読みやすく） */
+  background: #609939;
+  border: solid 2px #FFFDD0;
+}
+
+.edit-button:hover {
+  background: #1b5e20;
+  color: white;
+}
+
+/* --- 削除ボタン (赤のカード用) --- */
+.delete-button {
+  color: #ffffff; /* 赤背景の上で見やすい白文字 */
+  background-color: rgb(237, 26, 26);
+  border: solid 2px rgb(210, 12, 12);
+}
+
+.delete-button:hover {
+  background: #ffffff;
+  color: rgb(250, 18, 18); /* ホバー時に文字を赤く */
+}
+
+
+#MainText{
+    top:0;
+    margin: 0 auto;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #c9c7c7;
+    text-shadow: #b0b0b0;
+    text-shadow: 3px 1px 3px black;
+    text-align: center;
+}
+/*  */
+/* メインパネル（フォーム） */
+#MainPanel {
+    position:relative;
+    padding: 1em 1em;
+    margin: 2em 160px;
+    color: #FFF;
+    background: #d5e9fd;
+    border-bottom: solid 8px #b5d9fd;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 9px;
+}
+
+/* フォームの全体部品に適応（間隔調整） */
+.form-group{
+    display:flex;
+    flex-direction: column;  /* 縦方向に並べる */
+    gap: 5px;
+    margin:10px 0px;
+}
+
+/* ラベルのデザイン */
+label,.TimeLabel {
+    font-size: 18px;
+    font-weight: bold;
+    color: #f6f6f6;
+    text-shadow: #b0b0b0;
+    text-shadow: 0.5px 1px 1px #333333;
+}
+
+/* テキストボックスのデザイン */
+input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #969da3;
+    border-radius: 25px;
+    color: #333;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+input[type="text"] ::placeholder {
+    color: #999;
+}
+
+
+.current-mode-text{
+    /* position: absolute;   
+    top:10px; */
+    margin:0 0 20px 0;
+    font-size:20px;/* 親：MainPanel */
+    font-weight:lighter;
+    color: #67d49a;
+    text-shadow: #b0b0b0;
+    text-shadow: 0.5px 1px 1px #333333;
+
+    display: none;  /* 非表示 */
+}
+
+/* 画像を囲むコンテナ */
+#GameImagePhotoWrapper {
+    display:flex;
+    flex-direction: column;
+    gap:0px;
+}
+
+/* 画像エリア */
+#GameImage{
+    width: 550px;
+    height: 350px;    
+    margin:4px 0 0 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+#GameImage:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.GameImagePhotoButton{
+    padding: 20px 20px;
+    position: relative;
+    width: fit-content;
+}
+
+/* 画像挿入ボタン */
+.GameImagePhotoButton::file-selector-button{
+    position: absolute;
+    top:7px;
+    left:10px;
+    font-weight: bold;
+    color: white;
+    background: red;
+    font-size: 14px;
+    border: 0;
+    border-radius: 10em;
+    padding: 8px 16px;
+    text-align: center;
+}
+
+/* 購入日カレンダーのデザイン */
+/*  */
+#PlayDateLabel {
+    position: relative;
+    display:inline-block;
+    width: 243px;
+    height: 36px;
+}
+
+input[type="date"] {
+    position: relative;
+    width: 100%;
+    height: 36px;
+    padding: 0 10px 0 0;
+    border: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #999;
+    border: 1px solid #ccc;
+    border-radius:15px;
+}
+
+/* ドロップダウンメニューのデザイン */
+#SelectWrapper {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    width: 230px;
+}
+
+#SelectWrapper::after {
+    position: absolute;
+    right: 15px;
+    width: 10px;
+    height: 7px;
+    background-color: #535353;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    content: '';
+    pointer-events: none;
+}
+
+#PlayStatus,#PlayPackageKinds{
+    appearance: none;
+    min-width: 230px;
+    height: 2.8em;
+    padding: .4em calc(.8em + 30px) .4em .8em;
+    border: 1px solid #d0d0d0;
+    border-radius: 25px;
+    background-color: #fff;
+    color: #333333;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+
+
+
+/* プレイ時間のデザイン */
+#PlayTime {
+    display:flex;
+    gap:5px;
+    position: relative;
+}
+
+#PlayTimeHour,#PlayTimeMinute {
+    width: 70px;
+    height:27px;
+    padding: 8px 10px;
+    border: 1px solid #969da3;
+    border-radius: 25px;
+    color: #333;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+input[type="number"]::-webkit-outer-spin-button, 
+input[type="number"]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+} 
+
+
+
+
+/* レビュー（textarea）のデザイン */
+#ReviewWrapper {
+    display: block;
+    margin-bottom: 5px;
+    font-size: .9em;
+}
+
+#Review {
+    width: 100%;
+    height:200px;
+    padding: 8px 10px;
+    color: #333;
+    border: 1px solid #969da3;
+    border-radius: 25px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize:none;
+}
+
+#Review::placeholder {
+    color: #999;
+}
+
+/* おすすめ度デザイン */
+#StarArea {
+    position: flex;
+    gap: 20px;
+}
+
+.star5_rating{
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    white-space: nowrap;
+    color: #CCCCCC; /* グレーカラー 自由に設定化 */
+    font-size: 20px; /*フォントサイズ 自由に設定化 */
+}
+
+
+
+.star5_rating:before{
+    content: '★★★★★';
+}
+
+.star5_rating:after{
+    content: '★★★★★';
+    position: absolute;
+    width: var(--starWidth);
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #ffcf32; /* イエローカラー 自由に設定化 */
+}
+
+.card-review-number{
+    display:none;
+}
+
+/* スター値 */
+#StarLevelLabel {
+    margin: 0px 10px;
+}
+
+/* 送信ボタンのデザイン */
+#RegistrationButton {
+  background-color: #fff;
+  border: solid 2px #83c1ff;
+  color: #83c1ff;
+  border-radius: 20px;
+  margin: 10px,0px;
+  padding: 10px 30px;
+  text-decoration: none;
+  font-size: 1em;
+  box-shadow: 0 5px 0 #83c1ff;
+  display: inline-block;
+  transition: .3s;
+  cursor: pointer;
+}
+#RegistrationButton:hover {
+  color: #83c1ff;
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #83c1ff;
+}
+
+
+/* 背景のオーバーレイ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 表示された時のクラス（JavaScriptで付与） */
+.modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* モーダルの中身 */
+.modal-content {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  transition: transform 0.4s ease;
+}
+
+/* モーダルが開く時の動き */
+.modal-overlay.is-active .modal-content {
+  transform: translateY(0);
+}
+
+/* 成功アイコン */
+.success-icon {
+  width: 60px;
+  height: 60px;
+  background: #4caf50;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin: 0 auto 20px;
+}
+
+/* 閉じるボタン */
+.close-button {
+  margin-top: 25px;
+  padding: 12px 30px;
+  background: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.close-button:hover {
+  background: #0056b3;
+}

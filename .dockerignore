@@ -1,0 +1,6 @@
+# 隠したいファイル（コンテナにコピーしたくない）＆フォルダ
+.git
+.env
+.env.*
+node_modules
+fiveserver.config.js
