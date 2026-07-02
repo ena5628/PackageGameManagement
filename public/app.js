@@ -102,28 +102,31 @@ const CreatePanel = (values,url) =>{
     const GameCard = document.querySelector('.GameCard');
 
     // 購入日の形式を直す
-    const date = new Date(values.play_date);
-    const formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+    // const date = new Date(values.play_date);
+    // const formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 
-    // プレイ時間の形式を直す
-    const hour = Math.floor(values.play_time_minutes / 60);
-    const minutes = values.play_time_minutes % 60;
-    const time = `${hour}時間 ${minutes}分`;
+    // // プレイ時間の形式を直す
+    // const hour = Math.floor(values.play_time_minutes / 60);
+    // const minutes = values.play_time_minutes % 60;
+    // const time = `${hour}時間 ${minutes}分`;
 
     const htmlText =  `
     <div class="card-blog-a" data-game-id="${values.game_id}">
         <img src="${url}" alt="記事画像">
             <div class="card-blog-content">
-                <h3 class="game-title">ゲームタイトル：${values.game_title}</h3>
-                <p class="platform">ゲームの種類：${values.platform}</p>
-                <p class="play-date">購入日：${formatDate}</p>
-                <p class="play-status">進捗状況：${values.play_status}</p>
-                <p class="play-time-minutes">プレイ時間：${time}</p>
-                <p class="star_level">おすすめ度：${values.star_level}</p>
-                <p class="review">レビュー：${values.review}</p>
+                <p >ゲームタイトル</p>
+                <h3 class="game-title">${values.game_title}</h3>
+                <p>ゲームの種類</p>
+                <p class="platform">${values.platform}</p>
             </div>
     </div>
     `;
+
+    //     <p class="play-date">購入日：${formatDate}</p>
+    // <p class="play-status">進捗状況：${values.play_status}</p>
+    // <p class="play-time-minutes">プレイ時間：${time}</p>
+    // <p class="star_level">おすすめ度：${values.star_level}</p>
+    // <p class="review">レビュー：${values.review}</p>
 
     GameCard.insertAdjacentHTML('beforeend',htmlText);
 
