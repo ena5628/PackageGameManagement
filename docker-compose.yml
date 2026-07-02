@@ -16,7 +16,7 @@ services:
   db:
     image: mysql:8.0
     #.envファイルの読み込み
-    env_file:
+    env_file: 
       - .env
     # MYSQLデータの永続化
     volumes:
