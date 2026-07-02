@@ -1,6 +1,33 @@
-body{
-    background-color:rgb(228, 250, 239);
-    margin:0;
+:root {
+    --font-primary: 'Noto Sans JP', sans-serif;
+    --font-size-base: 16px;
+    --font-weight-regular: 400;
+    --line-height-loose: 1.6;
+    --color-text-dark: #333;
+    --color-bg-white: #ffffff;
+}
+
+body {
+    /* 1. 背景のベースカラー（薄いブルー） */
+    background-color: #effff5;
+
+    /* 2. 背景に格子模様を重ねる */
+    background-image: 
+        linear-gradient(to right, #e7e7e7 1px, transparent 1px),
+        linear-gradient(to bottom, #e7e7e7 1px, transparent 1px);
+
+    /* 3. 格子のサイズ（これを調整して好みの細かさに） */
+    background-size: 56px 56px; 
+
+    margin: 0;
+    min-height: 100vh; /* 画面いっぱいに表示 */
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    color: #666;
 }
 
 .header{
@@ -87,10 +114,25 @@ body{
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    background: #fff;
+    background-color: #fff9e4;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-
+    box-shadow: 8px 8px 16px #bebebe, 
+             -8px -8px 16px #ffffff;
+    /* アニメーションの適用 */
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: calc(var(--order) * 0.4s);
+}
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 .card-blog-a:hover {
  transform: translateY(-6px);
@@ -110,18 +152,26 @@ body{
 .card-blog-content {
  padding: 14px;
 }
-
-.card-blog-content .game-title {
- font-size: 1rem;
+.card-blog-content .card-title {
+ font-size: 1.1rem;
  margin: 0 0 6px 0;
- color: #333;
+ color: #4885c6;
+
+ white-space: nowrap;     /* 文字を改行させない */
+ overflow: hidden;        /* 枠からはみ出た部分を隠す */
+ text-overflow: ellipsis; /* はみ出た末尾を「…」にする */
+}
+.card-blog-content .game-title {
+ font-size: 1.1rem;
+ margin: 0 0 6px 0;
+ color: #4885c6;
  white-space: nowrap;     /* 文字を改行させない */
  overflow: hidden;        /* 枠からはみ出た部分を隠す */
  text-overflow: ellipsis; /* はみ出た末尾を「…」にする */
 }
 .card-blog-content .platform {
  font-size: 0.95rem;
- color: #666;
+ color: #2ebc9d;
  /* line-height: 1.4; */
 }.card-blog-content .play-date {
  font-size: 0.95rem;
