@@ -1,7 +1,7 @@
-service:
+services:
   #バックエンド
   backend:
-    build: ./
+    build: ./backend
     #.envファイルの読み込み
     env_file:
       - .env
@@ -24,7 +24,7 @@ service:
        # 初期化用SQL実行
        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "3306:3306"
+      - "3307:3306"  # Host port 3307 to container port 3306
       
 # 永続化ボリュームを定義
 volumes:
