@@ -11,9 +11,10 @@ const app = express();
 
 // フロントエンドに対してcorsを許可
 app.use(cors({
-    origin: "http://127.0.0.1:5000",  // nginxのポート番号に合わせる
-    origin: "http://127.0.0.1:5500",  // live serverのポート番号に合わせる
-    // origin: "*"
+    origin: [
+            "http://127.0.0.1:5000", 
+            "http://127.0.0.1:5500"
+        ]
 }));
 app.use(express.static(path.join(__dirname,'..','public')));  // 静的ファイル置き場の公開
 
@@ -273,6 +274,7 @@ app.get('/data/delete/:gameId',(req,res) =>{
 
 
 });
+
 
 // ポートの受付
 app.listen(5000, '0.0.0.0', () => {

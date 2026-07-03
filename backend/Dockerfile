@@ -13,10 +13,10 @@ RUN npm install
 # 残りのソースコードをすべてコピー
 COPY . .
 
-# Node.jsサーバーが使うポートの指定
+# Node.jsサーバーが使うポートの指定(yamlに指定しているが一応)
 EXPOSE 5000
 
 # コンテナ起動時に実行するコマンド
-CMD ["node", "backend.js"]
+# CMD ["node", "backend.js"]
 
 
