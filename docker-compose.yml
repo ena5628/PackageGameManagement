@@ -1,4 +1,17 @@
 services:
+  frontend:
+    build: ./frontend
+    #.envファイルの読み込み
+    env_file:
+      - .env
+    depends_on:
+      - backend
+    # 開発用コードと同期
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3001:80"  # Host port 3001 to container port 80
+
   #バックエンド
   backend:
     build: ./backend
