@@ -1,29 +1,31 @@
 services:
   frontend:
     build: ./frontend
-    #.envファイルの読み込み
-    env_file:
-      - .env
+    image: package_game_app-frontend:v1.0.0
     depends_on:
       - backend
-    # 開発用コードと同期
-    volumes:
-      - ./frontend:/app
     ports:
-      - "3001:80"  # Host port 3001 to container port 80
+      - "5000:80"  # Host port 5000 to container port 80
+
 
   #バックエンド
   backend:
     build: ./backend
+    image: package_game_app-backend:v1.0.0
     #.envファイルの読み込み
     env_file:
       - .env
     # MYSQLが起動するまで待機
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     # 開発用コードと同期
     volumes:
       - ./backend:/app
+    ports:
+      - "3000:5000"  # Host port 3000 to container port 5000
+    # 開発用コマンドを実行
+    command: npm run dev
 
   # データベース
   db:
@@ -38,7 +40,12 @@ services:
        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3307:3306"  # Host port 3307 to container port 3306
-      
+    # ヘルスチェックの設定  
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 # 永続化ボリュームを定義
 volumes:
   mysql_data:

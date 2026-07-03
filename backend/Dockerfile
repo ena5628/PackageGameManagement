@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Node.jsサーバーが使うポートの指定
-EXPOSE 3000
+EXPOSE 5000
 
 # コンテナ起動時に実行するコマンド
 CMD ["node", "backend.js"]
