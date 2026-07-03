@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded',async() =>{
     await ScreenReload();
 
     EditGameCard();  // ゲームカード編集イベントの実行
+
+    FilterGamecCard();  // ゲームカード絞り込みイベントの実行
 });
 
 
@@ -202,4 +204,21 @@ const EditGameCard = async() =>{
 }
 
 
+
 // headerの項目をクリックしたら絞り込みする処理
+const FilterGamecCard = async() =>{
+    const filterButton = document.querySelectorAll(`.nav-label`);  // Nav_itemクラスの要素を取得
+
+    // イベントリスナーを追加
+    filterButton.forEach(span =>{
+        span.addEventListener('click',async(e) =>{
+          
+          filterButton.forEach(span =>{
+            span.classList.remove('active');  // すべてのspanからactiveクラスを削除
+          
+          })
+
+          e.target.classList.add('active');  // クラスの切り替え  
+        });
+    })
+}

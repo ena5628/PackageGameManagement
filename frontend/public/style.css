@@ -70,7 +70,7 @@ p {
     width:100%;
     justify-content: space-around;
     list-style: none;
-    padding: 10px 0;
+    padding: 3px 0;
     margin:0;
 }
 
@@ -96,6 +96,12 @@ p {
 .Nav_item:hover .nav-label {
     opacity: 0.65;
     transform: scale(1.12);
+}
+
+/* 4. クリックされたときのアクティブ状態 */
+.active{
+    color: #2ebc9d;
+    text-shadow: 0.5px 1px 1px #333333;
 }
 
 
