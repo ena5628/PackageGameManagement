@@ -4,6 +4,9 @@ services:
     image: package_game_app-frontend:v1.0.0
     depends_on:
       - backend
+    # 開発用コードと同期
+    volumes:
+      - ./frontend/public:/usr/share/nginx/html
     ports:
       - "5000:80"  # Host port 5000 to container port 80
 
@@ -21,7 +24,7 @@ services:
         condition: service_healthy
     # 開発用コードと同期
     volumes:
-      - ./backend:/app
+      - ./backend:/usr/src/app
     ports:
       - "3000:5000"  # Host port 3000 to container port 5000
     # 開発用コマンドを実行
@@ -37,7 +40,7 @@ services:
     volumes:
        - mysql_data:/var/lib/mysql
        # 初期化用SQL実行
-       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3307:3306"  # Host port 3307 to container port 3306
     # ヘルスチェックの設定  
@@ -48,4 +51,5 @@ services:
       retries: 5
 # 永続化ボリュームを定義
 volumes:
-  mysql_data:
+  mysql_data:  # MySQLデータの永続化
+  Image_data:  # 画像データの永続化
