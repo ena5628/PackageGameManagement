@@ -52,4 +52,3 @@ services:
 # 永続化ボリュームを定義
 volumes:
   mysql_data:  # MySQLデータの永続化
-  Image_data:  # 画像データの永続化
