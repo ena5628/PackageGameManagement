@@ -81,18 +81,23 @@ p {
     text-align: center;
     color: #303030;
     text-shadow: 0.5px 1px 1px #333333;
+    /* transition: transform 0.3s; */
+    transition: font-size 0.3s;
 }
 
-.Nav_item span{
+/* 2. ラベル（span）を大きくしてヒットボックス化する */
+.Nav_item .nav-label {
     display: inline-block;
+    padding: 10px 20px;  /* ここで反応する余白を作る */
     transition: transform 0.3s;
 }
 
-.Nav_item span:hover{
-    opacity: .6;
-    cursor:pointer;
-    transform:scale(1.12);
+/* 3. 親がホバーされたら、中のラベルだけを拡大する */
+.Nav_item:hover .nav-label {
+    opacity: 0.65;
+    transform: scale(1.12);
 }
+
 
 .borderLineRight{
     border-right:2px solid rgb(54, 54, 54);
@@ -105,7 +110,7 @@ p {
     display: flex;
     flex-wrap:wrap;
     gap:35px;
-    padding: 20px 26px;
+    padding: 20px 24px;
 }
 
 /* ゲームカードリスト */
