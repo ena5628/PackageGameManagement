@@ -16,7 +16,10 @@ app.use(cors({
             "http://127.0.0.1:5500"
         ]
 }));
+
+
 app.use(express.static(path.join(__dirname,'..','public')));  // 静的ファイル置き場の公開
+app.use('/images',express.static(path.join(__dirname, 'Image')));
 
 // 送信できる容量を制限
 app.use(express.json({ limit: '50mb' }));
@@ -84,15 +87,18 @@ const sharedGameFormHandle = async (req,res,query,successComment,uploadPath) =>{
     // リクエストで受け取った値たち
     // console.log(req);
 
-    const gameTitle = req.body.GameTitle;
-    const platform = req.body.PlayPackageKinds;
-    const playDate = req.body.PlayDate;
-    const playStatus = req.body.PlayStatus;
+    const gameTitle = req.body.GameTitle.trim();  // 前後の空白を削除(Docker環境のmysqlが厳格なため)
+    const platform = req.body.PlayPackageKinds.trim();  
+    const playDate = req.body.PlayDate.trim();
+    const playStatus = req.body.PlayStatus.trim();
     const hour =  parseInt(req.body.PlayTimeHour * 60);
     const minutes =  parseInt(req.body.PlayTimeMinute || 0);
     const playTImeMinute = hour + minutes;
-    const review = req.body.Review;
+    const review = req.body.Review.trim();
     const starLevel = req.body.RecommendedLevel;
+
+    // 確認用
+    console.log('受け取った値：' + req.body.PlayStatus + ' ' + req.body.PlayTimeHour + ' ' + req.body.PlayTimeMinute + ' ' + playTImeMinute);
 
     let gameImagePath = null;  // 画像が送られてきてない場合を考慮
 
@@ -148,7 +154,7 @@ const sharedGameFormHandle = async (req,res,query,successComment,uploadPath) =>{
 
 
 // 画像保存先パスの指定
-const uploadPath = path.join(__dirname,'..','Image'); 
+const uploadPath = path.join(__dirname,'Image'); 
 
 const image = multer({dest:uploadPath});
 // 新規登録処理
@@ -198,7 +204,7 @@ app.get('/mainscreen/reload/getBinary/:imagepath',(req,res) => {
     const fileName = req.params.imagepath;  // URLの末尾の動的なパラメータ（imagepath）を取得
     console.log(fileName);// ファイル取得できたかチェック
 
-    const filePath = path.join(__dirname,'..','Image',fileName);
+    const filePath = path.join(uploadPath,fileName);
     console.log(filePath); 
     res.sendFile(filePath);  // ファイルを返す
 });
