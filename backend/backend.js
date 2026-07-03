@@ -12,7 +12,7 @@ const app = express();
 // フロントエンドに対してcorsを許可
 app.use(cors({
     origin: [
-            "http://127.0.0.1:5000", 
+            "http://127.0.0.1:5000",   // nginxのコンテナを許可
             "http://127.0.0.1:5500"
         ]
 }));
@@ -156,7 +156,7 @@ const sharedGameFormHandle = async (req,res,query,successComment,uploadPath) =>{
 // 画像保存先パスの指定
 const uploadPath = path.join(__dirname,'Image'); 
 
-const image = multer({dest:uploadPath});
+const image = multer({dest:uploadPath});   // 画像の保存先を指定
 // 新規登録処理
 app.post('/form/insert', image.any(),(req,res) =>{
 
@@ -282,7 +282,7 @@ app.get('/data/delete/:gameId',(req,res) =>{
 });
 
 
-// ポートの受付
+// コンテナのポートの受付
 app.listen(5000, '0.0.0.0', () => {
   console.log('Server running on 0.0.0.0:5000');
 });  

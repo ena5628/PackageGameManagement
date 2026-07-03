@@ -100,16 +100,22 @@ p {
 
 /* 新規ゲーム追加パネル */
 
-/* ゲームカード */
+/* ゲームカード全体 */
 .GameCard{
     display: flex;
     flex-wrap:wrap;
     gap:35px;
-    padding: 20px 35px;
+    padding: 20px 26px;
+}
+
+/* ゲームカードリスト */
+.GameCardList {
+    display: contents;
 }
 
 .card-blog-a {
-    width: 270px;
+    /* flex: 0 1 calc(25% - 20px); */
+    width: 279px;
     border: 1px solid #ddd;
     border-radius: 6px;
     overflow: hidden;

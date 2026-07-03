@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded',async() =>{
     EditGameCard();  // ゲームカード編集イベントの実行
 });
 
+
 // 新規ゲーム追加処理
 let CreateGameCard = document.getElementById("CreateGameCard");
 
@@ -99,7 +100,7 @@ const responseJson = await fetch('http://localhost:3000/mainscreen/reload/getJso
 
 // html部分の作成（ゲームカード）
 const CreatePanel = (values,url,index) =>{
-    const GameCard = document.querySelector('.GameCard');
+    const GameCardList = document.querySelector('.GameCardList');  // GameCardListクラスの要素を取得
 
     // 購入日の形式を直す
     // const date = new Date(values.play_date);
@@ -130,7 +131,7 @@ const CreatePanel = (values,url,index) =>{
     // <p class="star_level">おすすめ度：${values.star_level}</p>
     // <p class="review">レビュー：${values.review}</p>
 
-    GameCard.insertAdjacentHTML('beforeend',htmlText);
+    GameCardList.insertAdjacentHTML('beforeend',htmlText);
 
 }
 
@@ -200,3 +201,5 @@ const EditGameCard = async() =>{
 
 }
 
+
+// headerの項目をクリックしたら絞り込みする処理
