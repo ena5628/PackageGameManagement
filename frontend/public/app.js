@@ -219,6 +219,10 @@ const FilterGamecCard = async() =>{
           })
 
           e.target.classList.add('active');  // クラスの切り替え  
+        
+          const filterValue = e.target.textContent;  // クリックした要素のデータを取得
+
+            console.log('クリックした要素のデータ：' + filterValue);  // クリックした要素のデータを確認
         });
     })
 }
