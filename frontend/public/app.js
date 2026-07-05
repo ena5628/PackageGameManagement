@@ -3,6 +3,8 @@
 document.addEventListener('DOMContentLoaded',async() =>{
     await ScreenReload();
 
+    HeaderAnimation();  // ヘッダーのアニメーションイベントの実行
+
     EditGameCard();  // ゲームカード編集イベントの実行
 
     FilterGamecCard();  // ゲームカード絞り込みイベントの実行
@@ -203,6 +205,24 @@ const EditGameCard = async() =>{
 
 }
 
+
+// header要素のナビゲーションバーのアニメーション
+const HeaderAnimation = () =>{
+    const nav = document.querySelector('.PackageGameNav');  // PackageGameNavクラスの要素を取得
+    const ul = document.querySelector('.Nav-inner');  // Nav-innerクラスの要素を取得
+
+    // スクロールイベントを追加（headerがulタグの位置に来たらヘッダーを固定）
+    window.addEventListener('scroll',() =>{
+
+        if(window.pageYOffset >= ul.offsetTop){  // スクロール位置がulタグの位置より大きい場合
+            nav.classList.add('scrolled');  // scrolledクラスを追加
+        }
+        else{
+            console.log('elseブロックに入りました');
+            nav.classList.remove('scrolled');  // scrolledクラスを削除
+        }
+    });
+}
 
 
 // headerの項目をクリックしたら絞り込みする処理
