@@ -138,15 +138,16 @@ nav.scrolled .Nav_item {
     display: contents;
 }
 
+
 .card-blog-a {
     /* flex: 0 1 calc(25% - 20px); */
     width: 270px;
     height: 332px;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    background-color: #fff9e4;
+    background-color: #fcfcfc;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     box-shadow: 8px 8px 16px #bebebe, 
@@ -167,7 +168,7 @@ nav.scrolled .Nav_item {
     }
 }
 .card-blog-a:hover {
- transform: translateY(-6px);
+ transform: scale(1.05) translateY(-6px);
  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
@@ -176,6 +177,9 @@ nav.scrolled .Nav_item {
  width: 100%;
  height:210px;
  display: block;
+ border: 1px solid #868686;
+ object-fit: cover; /* 画像の比率を保ったまま、拡大縮小し、はみ出た部分はトリミングする */
+ object-position: center; /* 画像の中心を基準に表示する */
  transition: transform 0.4s ease;
 }
 .card-blog-a:hover img {
