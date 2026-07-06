@@ -211,6 +211,7 @@ const HeaderAnimation = () =>{
     const nav = document.querySelector('.PackageGameNav');  // PackageGameNavクラスの要素を取得
     const ul = document.querySelector('.Nav-inner');  // Nav-innerクラスの要素を取得
 
+
     // スクロールイベントを追加（headerがulタグの位置に来たらヘッダーを固定）
     window.addEventListener('scroll',() =>{
 
@@ -228,17 +229,28 @@ const HeaderAnimation = () =>{
 // headerの項目をクリックしたら絞り込みする処理
 const FilterGamecCard = async() =>{
     const filterButton = document.querySelectorAll(`.nav-label`);  // Nav_itemクラスの要素を取得
+    const GameCardList = document.querySelector('.GameCardList');  // GameCardListクラスの要素を取得
+
 
     // イベントリスナーを追加
     filterButton.forEach(span =>{
         span.addEventListener('click',async(e) =>{
-          
-          filterButton.forEach(span =>{
-            span.classList.remove('active');  // すべてのspanからactiveクラスを削除
-          
-          })
 
-          e.target.classList.add('active');  // クラスの切り替え  
+          // クリックした要素がすでにactiveクラスを持っている場合は削除し、持っていない場合は追加する
+          if(e.target.classList.contains('active')){  
+            e.target.classList.remove('active');  // activeクラスを削除
+            GameCardList.replaceChildren();       // GameCardListの子要素をすべて削除
+            await ScreenReload();  // 画面再描画
+          }
+          else {
+            // すべてのspanからactiveクラスを削除
+            filterButton.forEach(span =>{
+                span.classList.remove('active');  
+            
+            })
+
+            e.target.classList.add('active');  // クラスの切り替え  
+          }
         
           const filterValue = e.target.textContent;  // クリックした要素のデータを取得
 
