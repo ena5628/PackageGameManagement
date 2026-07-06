@@ -230,17 +230,24 @@ input[type="text"] ::placeholder {
 }
 
 /* 画像エリア */
-#GameImage{
-    width: 550px;
-    height: 350px;    
+.game-image {
+    width: 430px;
+    height: 300px;    
     margin:4px 0 0 0;
     border: 1px solid #ddd;
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     background: #fff;
+    object-fit: cover; /* 画像の比率を保ったまま、拡大縮小し、はみ出た部分はトリミングする */
+    object-position: center; /* 画像の中心を基準に表示する */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+}
+
+
+#GameImage{
+
 }
 
 #GameImage:hover {

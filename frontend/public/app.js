@@ -143,9 +143,9 @@ const CreatePanel = (values,url,index) =>{
         <img src="${url}" alt="記事画像">
             <div class="card-blog-content">
                 <p >ゲームタイトル</p>
-                <h3 class="game-title">${values.game_title}</h3>
+                <h3 class="game-title" translate="no">${values.game_title}</h3>
                 <p>ゲームの種類</p>
-                <p class="platform">${values.platform}</p>
+                <p class="platform" translate="no>${values.platform}</p>
             </div>
     </div>
     `;
