@@ -50,7 +50,6 @@ nav .headerTitle {
     margin: 0;
     padding:20px 0;
     text-align: center;
-    cursor: pointer;
     font-size: 34px;
     /* font-family: 'Noto Sans JP', sans-serif; */
     color: whitesmoke;
@@ -78,6 +77,17 @@ nav .Nav-inner .Nav_item {
     font-size: 16px;
 }
 
+/* ナビゲーションのラベルのアニメーション */
+nav .Nav-inner .Nav_item .nav-label {
+    display: inline-block;
+    transition: 0.3s ease; /* 色の変化にアニメーションを追加 */
+}
+
+nav .Nav-inner .Nav_item .nav-label:hover {
+    transform: scale(1.25); /* ホバー時に少し拡大 */
+}
+
+/* スクロール時のナビゲーション */
 nav.scrolled {
     position: fixed;  /* スクロール時に固定 */
     top: 0;
@@ -101,7 +111,14 @@ nav.scrolled .Nav-inner {
 }
 
 nav.scrolled .Nav_item {
+    padding: 0px 40px;
     font-size: 18px; /* フォントサイズを大きく */
+}
+
+/* 4. クリックされたときのアクティブ状態 */
+.active{
+    color: #65cff9;
+    text-shadow: 0.5px 1px 1px #333333;
 }
 
 /* 新規ゲーム追加パネル */
