@@ -1,4 +1,5 @@
 * {
+    --font-primary: 'Noto Sans JP', sans-serif;
     box-sizing: border-box;
 }
 
@@ -245,10 +246,6 @@ input[type="text"] ::placeholder {
     cursor: pointer;
 }
 
-
-#GameImage{
-
-}
 
 #GameImage:hover {
  transform: translateY(-2px);

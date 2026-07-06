@@ -141,12 +141,12 @@ const CreatePanel = (values,url,index) =>{
     const htmlText =  `                                      
     <div class="card-blog-a" data-game-id="${values.game_id} "style="--order: ${index + 1};">  
         <img src="${url}" alt="記事画像">
-            <div class="card-blog-content">
-                <p >ゲームタイトル</p>
-                <h3 class="game-title" translate="no">${values.game_title}</h3>
-                <p>ゲームの種類</p>
-                <p class="platform" translate="no>${values.platform}</p>
-            </div>
+        <div class="card-blog-content">
+            <p >ゲームタイトル</p>
+            <h3 class="game-title" translate="no">${values.game_title}</h3>
+            <p>ゲームの種類</p>
+            <p class="platform" translate="no">${values.platform}</p>
+        </div>
     </div>
     `;
 
