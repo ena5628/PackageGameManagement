@@ -128,7 +128,9 @@ nav.scrolled .Nav_item {
     padding: 20px 24px;
 }
 
-
+.hidden {
+    display: none;
+}
 
 
 /* ゲームカードリスト */
