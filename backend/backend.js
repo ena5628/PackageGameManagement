@@ -182,22 +182,46 @@ app.post('/form/update',image.any(),(req,res) =>{
 
 
 // データベースからJSONデータを取得する処理（全件取得）
-app.get('/mainscreen/reload/getJson',(req,res) => {
+app.get('/mainscreen/reload/getJson/all',(req,res) => {
     
     const select_all_query = 'select * from package_game';  // 全件取得
+    
+    // クエリ実行
     connection.query(select_all_query,(err,results) =>{
         if(err){
             console.error(err);
             return res.status(500).send('DBエラー');
         }
 
-        console.log(results);
+        console.log('取得したデータ（全件）' + results); 
         res.json(results);
 
     });
 
+});
+
+// データベースからJSONデータを取得する処理（送られてきた項目データの取得）
+app.get('/mainscreen/reload/getJson/search/:filterValue',(req,res) =>{
+
+    const filter = req.params.filterValue;
+
+    console.log('Searchする値：' + filter);
+
+    const select_search_query = `select * from package_game where platform = ?`;  // 項目データの取得
+
+    // クエリ実行
+    connection.query(select_search_query,filter,(err,results) =>{
+        if(err){
+            console.error(err);
+            return res.status(500).send('DBエラー');
+        }
+
+        console.log('取得したデータ（項目データ）' + results); 
+        res.json(results);
+    });
 
 });
+
 
 // サーバーから画像データを受け取り呼び出し元に返す処理
 app.get('/mainscreen/reload/getBinary/:imagepath',(req,res) => {
@@ -210,7 +234,7 @@ app.get('/mainscreen/reload/getBinary/:imagepath',(req,res) => {
 });
 
 
-// データベースからデータを取得（特定のIDのデータ）
+// データベースからデータを取得（特定のIDデータ）
 app.get('/mainscreen/editCard/getJson/:gameID',(req,res) => {
     const params = req.params.gameID;  // URLの末尾の動的なパラメータを取得
 
@@ -228,7 +252,7 @@ app.get('/mainscreen/editCard/getJson/:gameID',(req,res) => {
 });
 
 
-// データベースからデータを削除（特定ID）
+// データベースからデータを削除（特定のIDデータ）
 app.get('/data/delete/:gameId',(req,res) =>{
     const gameId = req.params.gameId;  // URLパラメータからgameIdを取得
 

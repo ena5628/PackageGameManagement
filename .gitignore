@@ -8,6 +8,7 @@ fiveserver.config.js
 backend/Image/*
 # ただし、default_image.png は除外対象外にする（必要なら）
 !backend/Image/default_image.png
+!backend/Image/create_image.png
 
 # Logs
 logs
