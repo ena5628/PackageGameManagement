@@ -3,6 +3,10 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size:17px;  /* 基準サイズ */ 
+}
+
 body{
     position:relative;
     background-color: #e3effc;
@@ -38,7 +42,8 @@ input[type="text"].error-style {
 #BackButton {
     position:relative;
     left: 10px;
-    width: 90px;
+    width: 80%;
+    max-width: 90px;
     height:40px;
     margin: 0 auto;
     padding: 0;
@@ -102,13 +107,13 @@ input[type="text"].error-style {
 /* パネルのラベル */
 .edit-label {
     color:#ddffc6;
-    font-size: 14px;
+    font-size: 1rem;
     margin: 25px 0 0 17px;
 }
 
 .delete-label {
     color:#fadbd8;
-    font-size: 14px;
+    font-size: 1rem;
     margin: 25px 0 0 17px;
 
 }
@@ -167,9 +172,11 @@ input[type="text"].error-style {
 /*  */
 /* メインパネル（フォーム） */
 #MainPanel {
-    position:relative;
-    padding: 1em 1em;
-    margin: 2em 160px;
+    position: relative;
+    padding: 2em; /* パディングを少し調整 */
+    margin: 2em auto; /* 左右中央寄せ */
+    width: 90%;       /* スマホでは画面の90%幅に */
+    max-width: 900px; /* PCなどでは最大600pxまで広がる */
     color: #FFF;
     background: #d5e9fd;
     border-bottom: solid 8px #b5d9fd;
@@ -187,7 +194,7 @@ input[type="text"].error-style {
 
 /* ラベルのデザイン */
 label,.TimeLabel {
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: bold;
     color: #f6f6f6;
     text-shadow: #b0b0b0;
@@ -201,7 +208,7 @@ input[type="text"] {
     border: 1px solid #969da3;
     border-radius: 25px;
     color: #333;
-    font-size: 1em;
+    font-size: 0.95em;
     line-height: 1.5;
 }
 
@@ -232,8 +239,9 @@ input[type="text"] ::placeholder {
 
 /* 画像エリア */
 .game-image {
-    width: 430px;
-    height: 300px;    
+    width: 90%;
+    max-width: 430px;
+    max-height: 300px;    
     margin:4px 0 0 0;
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -266,7 +274,7 @@ input[type="text"] ::placeholder {
     font-weight: bold;
     color: white;
     background: red;
-    font-size: 14px;
+    font-size: 0.95rem;
     border: 0;
     border-radius: 10em;
     padding: 8px 16px;
@@ -289,7 +297,7 @@ input[type="date"] {
     padding: 0 10px 0 0;
     border: 0;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: 1rem;
     color: #999;
     border: 1px solid #ccc;
     border-radius:15px;
@@ -323,7 +331,7 @@ input[type="date"] {
     border-radius: 25px;
     background-color: #fff;
     color: #333333;
-    font-size: 1em;
+    font-size: 1rem;
     cursor: pointer;
 }
 
@@ -344,7 +352,7 @@ input[type="date"] {
     border: 1px solid #969da3;
     border-radius: 25px;
     color: #333;
-    font-size: 1em;
+    font-size: 1rem;
     line-height: 1.5;
 }
 
@@ -371,7 +379,7 @@ input[type="number"]::-webkit-inner-spin-button {
     color: #333;
     border: 1px solid #969da3;
     border-radius: 25px;
-    font-size: 14px;
+    font-size: 0.95rem;
     line-height: 1.5;
     resize:none;
 }
@@ -392,7 +400,7 @@ input[type="number"]::-webkit-inner-spin-button {
     display: inline-block;
     white-space: nowrap;
     color: #CCCCCC; /* グレーカラー 自由に設定化 */
-    font-size: 20px; /*フォントサイズ 自由に設定化 */
+    font-size: 1.3rem; /*フォントサイズ 自由に設定化 */
 }
 
 
@@ -431,7 +439,7 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 10px,0px;
   padding: 10px 30px;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 1rem;
   box-shadow: 0 5px 0 #83c1ff;
   display: inline-block;
   transition: .3s;
@@ -487,8 +495,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* 成功アイコン */
 .success-icon {
-  width: 60px;
-  height: 60px;
+  max-width: 60px;
+  max-height: 60px;
   background: #4caf50;
   color: #ffffff;
   border-radius: 50%;
@@ -514,4 +522,18 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .close-button:hover {
   background: #0056b3;
+}
+
+
+/* レスポンシブ対応 */
+@media (max-width: 530px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media (min-width:531px) and (max-width:740px) {
+    html {
+        font-size:15px;
+    }
 }

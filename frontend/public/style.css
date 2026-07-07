@@ -217,8 +217,7 @@ nav.scrolled .Nav_item {
 
 
 
-/* メディアクエリ内 */
-/*（小型スマホ）対応 */
+/* レスポンシブ対応 */
 @media (max-width: 395px) {
     nav .headerTitle {
         font-size: 20px;
