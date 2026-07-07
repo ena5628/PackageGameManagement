@@ -26,6 +26,19 @@ input[type="text"].error-style {
     
 }
 
+/* メインテキスト */
+.main-text{
+    top:0;
+    margin: 0 auto;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #c9c7c7;
+    text-shadow: #b0b0b0;
+    text-shadow: 3px 1px 3px black;
+    text-align: center;
+}
+
+
 /* 読み取り専用時のデザイン */
 .is-readonly {
     /* マウス操作を完全に無効化する */
@@ -62,6 +75,12 @@ input[type="text"].error-style {
 }
 
 
+/* メイン機能を覆うdivタグ */
+.container {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 /* 編集＆削除ボタンをまとめたカード */
 #EditCardWrapper {
     display: none;
@@ -79,7 +98,6 @@ input[type="text"].error-style {
     width: 300px;
     height: 110px;
     border-radius:8px;
-    /* background-color: #94d768; */
     box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
     /* 穴あけパンチ部分 */
     background-image: radial-gradient(circle at 15px 15px, transparent 6px, #94d768 9px);
@@ -159,16 +177,7 @@ input[type="text"].error-style {
 }
 
 
-#MainText{
-    top:0;
-    margin: 0 auto;
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #c9c7c7;
-    text-shadow: #b0b0b0;
-    text-shadow: 3px 1px 3px black;
-    text-align: center;
-}
+
 /*  */
 /* メインパネル（フォーム） */
 #MainPanel {
@@ -530,10 +539,30 @@ input[type="number"]::-webkit-inner-spin-button {
     html {
         font-size: 14px;
     }
+    #ModeCardWrapper, #DeleteCardWrapper {
+        max-width: 350px;
+    }
 }
 
 @media (min-width:531px) and (max-width:740px) {
     html {
         font-size:15px;
     }
+    #ModeCardWrapper, #DeleteCardWrapper {
+        max-width: 450px;
+    }
+}
+
+@media (max-width: 768px) {
+  /* 編集パネルの配置を変更 */
+  #EditCardWrapper {
+    position: static; /* absoluteを解除 */
+  }
+
+  /* 編集パネルの大きさを変更 */
+  #ModeCardWrapper, #DeleteCardWrapper {
+    width: 90%;       
+    max-width: 600px; 
+    margin: 20px auto; /* 中央寄せ */
+  }
 }
