@@ -6,6 +6,9 @@
 
 ゲームタイトル、ゲームの種類、プレイ状況、レビューなどを登録・管理できます。
 
+## 開発環境
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+
 ## 使用技術
 
 ### フロントエンド
@@ -19,8 +22,11 @@
 ### データベース
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
-### 開発環境
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+#### その他ライブラリ
+
+
+
+
 
 ## 機能
 
@@ -35,5 +41,11 @@
 ### 1. リポジトリを取得
 
 ```bash
-git clone https://github.com/ena5628/PackageGameManagement.git
+git clone https://github.com/ena5628/PackageGameManagement.git　
+```
+
+### 2. .envファイルの作成
+
+```bash
+cp
 
