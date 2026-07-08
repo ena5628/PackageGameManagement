@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # Game Package Management
 
 ## 概要
@@ -38,4 +36,4 @@
 
 ```bash
 git clone https://github.com/ena5628/PackageGameManagement.git
->>>>>>> 000044c6f4acf44f74b86af2972b5c804a1cf80e
+
