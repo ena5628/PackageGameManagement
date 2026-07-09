@@ -6,6 +6,10 @@
 
 ゲームタイトル、ゲームの種類、プレイ状況、レビューなどを登録・管理できます。
 
+## 前提条件
+このプロジェクトを実行するには、以下のツールがインストールされている必要があります。
+### **Docker / Docker Compose**
+
 ## 開発環境
 <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 
@@ -38,7 +42,7 @@
 - 項目フィルター検索（ゲームの種類別）
 - 画像アップロード（backendフォルダ内のImageフォルダに画像データを格納）
 
-## 環境構築
+## セットアップ手順
 
 ### 1. リポジトリを取得
 
@@ -49,5 +53,15 @@ git clone https://github.com/ena5628/PackageGameManagement.git　
 ### 2. .envファイルの作成
 
 ```bash
-cp
+cd ./PackageGameManagement
+cp .env.example .env
+```
+>.env.example はあくまで設定項目のテンプレートです。
+本番環境や個人環境で使用する際は、必ずより強固で推測されにくいパスワード等の値に書き換えてから使用することを強く推奨します。
+
+### 3. docker composeの起動
+
+```bash
+docker compose up -d --build
+```
 
