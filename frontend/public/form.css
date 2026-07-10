@@ -13,7 +13,7 @@ body{
 }
 
 
-.RequiredSymbol {
+.required-symbol {
     color: red;
     margin-left: 4px;
     font-weight:bold;
@@ -269,14 +269,14 @@ input[type="text"] ::placeholder {
  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
-.GameImagePhotoButton{
+.game-image-photo-button{
     padding: 20px 20px;
     position: relative;
     width: fit-content;
 }
 
 /* 画像挿入ボタン */
-.GameImagePhotoButton::file-selector-button{
+.game-image-photo-button::file-selector-button{
     position: absolute;
     top:7px;
     left:10px;
