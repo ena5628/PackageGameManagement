@@ -126,7 +126,7 @@ const ResponseDataSearch = async(filterValue) =>{
 
 // html部分の作成（ゲームカード）
 const CreatePanel = (values,url,index) =>{
-    const GameCardList = document.querySelector('.GameCardList');  // GameCardListクラスの要素を取得
+    const GameCardList = document.querySelector('.game-card-list');  // game-card-listクラスの要素を取得
 
     // 購入日の形式を直す
     // const date = new Date(values.play_date);
@@ -191,7 +191,7 @@ const ScreenReload = async(filterValue = null) =>{
 
 // ゲームカードをクリックしたら編集画面に遷移する処理
 const EditGameCard = async() =>{
-    const GameCardList = document.querySelector('.GameCardList');  // GameCardListのクラス要素を取得
+    const GameCardList = document.querySelector('.game-card-list');  // game-card-listのクラス要素を取得
 
     GameCardList.addEventListener('click',async(e) =>{
         
@@ -235,8 +235,8 @@ const EditGameCard = async() =>{
 
 // header要素のナビゲーションバーのアニメーション
 const HeaderAnimation = () =>{
-    const nav = document.querySelector('.PackageGameNav');  // PackageGameNavクラスの要素を取得
-    const ul = document.querySelector('.Nav-inner');  // Nav-innerクラスの要素を取得
+    const nav = document.querySelector('.gamepackage-nav');  // gamepackage-navクラスの要素を取得
+    const ul = document.querySelector('.nav-inner');  // nav-innerクラスの要素を取得
 
 
     // スクロールイベントを追加（headerがulタグの位置に来たらヘッダーを固定）
@@ -255,9 +255,9 @@ const HeaderAnimation = () =>{
 
 // headerの項目をクリックしたら絞り込みする処理
 const FilterGamecCard = async() =>{
-    const filterButton = document.querySelectorAll(`.nav-label`);  // Nav_itemクラスの要素を取得
+    const filterButton = document.querySelectorAll(`.nav-label`);  // nav-itemクラスの要素を取得
     const CreateGameCard = document.querySelector('.create-game-card');  // create-game-cardクラスの要素を取得
-    const GameCardList = document.querySelector('.GameCardList');  // GameCardListクラスの要素を取得
+    const GameCardList = document.querySelector('.game-card-list');  // game-card-listクラスの要素を取得
 
 
     // イベントリスナーを追加

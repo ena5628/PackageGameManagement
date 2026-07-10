@@ -58,7 +58,7 @@ nav .headerTitle {
 }
 
 /*/* ナビゲーションバー（ulタグ） */
-nav .Nav-inner {
+nav .nav-inner {
     width: 100%;
     background-color: rgb(0, 0, 0);
     list-style: none;
@@ -66,7 +66,7 @@ nav .Nav-inner {
     padding: 0;
 }
 
-nav .Nav-inner .Nav_item {
+nav .nav-inner .nav-item {
     display: inline-block;  /* インライン要素で横並びに */
     list-style: none;  /* デフォルトのリストスタイルを無効化 */
     margin : 6px 10px;
@@ -77,12 +77,12 @@ nav .Nav-inner .Nav_item {
 }
 
 /* ナビゲーションのラベルのアニメーション */
-nav .Nav-inner .Nav_item .nav-label {
+nav .nav-inner .nav-item .nav-label {
     display: inline-block;
     transition: 0.3s ease; /* 色の変化にアニメーションを追加 */
 }
 
-nav .Nav-inner .Nav_item .nav-label:hover {
+nav .nav-inner .nav-item .nav-label:hover {
     transform: scale(1.25); /* ホバー時に少し拡大 */
 }
 
@@ -105,11 +105,11 @@ nav.scrolled .headerTitle {
     background-color: transparent; /* 背景色を透明に */
 }
 
-nav.scrolled .Nav-inner {
+nav.scrolled .nav-inner {
     background-color: transparent; /* 背景色を透明に */
 }
 
-nav.scrolled .Nav_item {
+nav.scrolled .nav-item {
     padding: 0px 40px;
     font-size: 18px; /* フォントサイズを大きく */
 }
@@ -134,7 +134,7 @@ nav.scrolled .Nav_item {
 
 
 /* ゲームカードリスト */
-.GameCardList {
+.game-card-list {
     display: contents;
 }
 
@@ -222,13 +222,13 @@ nav.scrolled .Nav_item {
     nav .headerTitle {
         font-size: 20px;
     }
-    nav .Nav_item .nav-label {
+    nav .nav-item .nav-label {
         font-size: 14px;
     }
     nav.scrolled .headerTitle {
         font-size: 18px; /* さらに小さく */
     }
-    nav.scrolled .Nav_item .nav-label {
+    nav.scrolled .nav-item .nav-label {
         font-size: 10px;
     }
     .header {
@@ -245,13 +245,13 @@ nav.scrolled .Nav_item {
     nav .headerTitle {
         font-size: 22px;
     }
-    nav .Nav_item .nav-label {
+    nav .nav-item .nav-label {
         font-size: 16px;
     }
     nav.scrolled .headerTitle {
         font-size: 20px;
     }
-    nav.scrolled .Nav_item .nav-label {
+    nav.scrolled .nav-item .nav-label {
         font-size: 11px;
     }
     .header {
@@ -269,13 +269,13 @@ nav.scrolled .Nav_item {
     nav .headerTitle {
         font-size: 24px;
     }
-    nav .Nav_item .nav-label {
+    nav .nav-item .nav-label {
         font-size: 18px;
     }
     nav.scrolled .headerTitle {
         font-size: 24px;
     }
-    nav.scrolled .Nav_item .nav-label {
+    nav.scrolled .nav-item .nav-label {
         font-size: 14px;
     }
     .header {
@@ -293,13 +293,13 @@ nav.scrolled .Nav_item {
     nav .headerTitle {
         font-size: 26px;
     }
-    nav .Nav_item .nav-label {
+    nav .nav-item .nav-label {
         font-size: 18px;
     }
     nav.scrolled .headerTitle {
         font-size: 24px;
     }
-    nav.scrolled .Nav_item .nav-label {
+    nav.scrolled .nav-item .nav-label {
         font-size: 16px;
     }
     .header {
