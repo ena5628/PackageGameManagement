@@ -1,6 +1,10 @@
 'use strict';
 //起動時に実行
 document.addEventListener('DOMContentLoaded',async() =>{
+    const createPhoto = document.querySelector('.create-img');
+
+    createPhoto.src = `${CONFIG.API_BASE_URL}/images/create_image.png`;
+
     await ScreenReload();
 
     HeaderAnimation();  // ヘッダーのアニメーションイベントの実行
