@@ -222,7 +222,7 @@ const PlayTimeOverSolution = () =>{
 
 // fetchの非同期処理（insert）
 const FetchToFormInsert = async (formData) =>{
-    return await fetch('http://localhost:3000/form/insert', {
+    return await fetch('${CONFIG.API_BASE_URL}/form/insert', {
     method:'POST',
     body: formData
   });
@@ -248,7 +248,7 @@ const FetchToFormUpdate = async (formData) =>{
   if(oldImagePath){
     formData.append('OldImagePath',oldImagePath);
   }
-  return await fetch('http://localhost:3000/form/update', {
+  return await fetch(`${CONFIG.API_BASE_URL}:3000/form/update`, {
   method:'POST',
   body: formData
   });
@@ -364,7 +364,7 @@ const DeleteData = (gameData) =>{
 
       console.log('削除するID：' + DeleteId);  // 確認用
 
-      const response = await fetch(`http://localhost:3000/data/delete/${DeleteId}`);
+      const response = await fetch(`${CONFIG.API_BASE_URL}/data/delete/${DeleteId}`);
 
       const status = await response.text();
 

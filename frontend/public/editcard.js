@@ -49,7 +49,7 @@ const inputGameData = (gameData) => {
 
     // gameImageElement.src = gameImageUrl;  // ゲーム画像のURLを挿入
     if (gameData.game_image_path) {
-    GameImage.src = `http://localhost:3000/mainscreen/reload/getBinary/${gameData.game_image_path}`;
+    GameImage.src = `${CONFIG.API_BASE_URL}/mainscreen/reload/getBinary/${gameData.game_image_path}`;
     } else {
         GameImage.src = "./Image/default_image.png"; // 画像がない場合の予備
     }
