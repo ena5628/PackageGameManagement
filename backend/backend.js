@@ -13,7 +13,9 @@ const app = express();
 app.use(cors({
     origin: [
             "http://127.0.0.1:5000",   // nginxのコンテナを許可
-            "http://127.0.0.1:5500"    // live serverを許可
+            "http://localhost:5000",   // localhost
+            "http://127.0.0.1:5500",    // live serverを許可
+             process.env.CORS_ORIGIN    // 本番用IPアドレス
         ]
 }));
 
