@@ -25,6 +25,7 @@ services:
     # 開発用コードと同期
     volumes:
       - ./backend:/usr/src/app
+      - /usr/src/app/node_modules  # 上書き防止用（github上ではnode_modulesを管理下に置いてないため上書きされてしまう）
     ports:
       - "3000:5000"  # Host port 3000 to container port 5000
     # 開発用コマンドを実行
