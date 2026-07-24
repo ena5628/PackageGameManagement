@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded',(e) =>{
 
     const gamePhoto = document.querySelector('.game-image');  // ゲーム画像
 
-    createPhoto.src = `${CONFIG.API_BASE_URL}/images/default_image.png`;
+    gamePhoto.src = `${CONFIG.API_BASE_URL}/images/default_image.png`;
 
     // 共通の処理
     PlayTimeOverSolution();  // プレイ時間超過測定
