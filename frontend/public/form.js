@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded',(e) =>{
     const submitButton = document.getElementById('RegistrationButton');
     const MainPanel = document.getElementById('MainPanel');
 
+    const gamePhoto = document.querySelector('.game-image');  // ゲーム画像
+
+    createPhoto.src = `${CONFIG.API_BASE_URL}/images/default_image.png`;
+
     // 共通の処理
     PlayTimeOverSolution();  // プレイ時間超過測定
     PlayTimeDisable();       // 未開封状態にプレイ時間を入力させないようにする
@@ -222,7 +226,7 @@ const PlayTimeOverSolution = () =>{
 
 // fetchの非同期処理（insert）
 const FetchToFormInsert = async (formData) =>{
-    return await fetch('${CONFIG.API_BASE_URL}/form/insert', {
+    return await fetch(`${CONFIG.API_BASE_URL}/form/insert`, {
     method:'POST',
     body: formData
   });
